@@ -89,7 +89,7 @@ export default function App() {
       <div className="app-inner">
         <header className="app-header" style={{textAlign:"center"}}>
           <h1>Schüler-Zuteilung</h1>
-          <p>Konfiguriere Schüler, Kapazitäten und weise zufällig zu</p>
+          <p>Schüler hinzufügen, Kapazität auswählen, Zufällig zuweisen</p>
         </header>
 
         <main className="app-main">

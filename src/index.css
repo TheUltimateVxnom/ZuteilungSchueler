@@ -1,166 +1,122 @@
-:root {
-  --bg-light: #f0f2f5;
-  --bg-dark: #1f1f1f;
-  --card-light: #ffffff;
-  --card-dark: #2b2b2b;
-  --text-light: #1f1f1f;
-  --text-dark: #f0f0f0;
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --danger: #dc2626;
-  --danger-hover: #b91c1c;
-  --input-light: #fff;
-  --input-dark: #3a3a3a;
-  --input-border-light: #ccc;
-  --input-border-dark: #555;
-}
+import React, { useEffect, useState } from "react";
 
-[data-theme="light"] {
-  --bg: var(--bg-light);
-  --card-bg: var(--card-light);
-  --text-color: var(--text-light);
-  --input-bg: var(--input-light);
-  --input-border: var(--input-border-light);
-}
+export default function App() {
+  const [studentsText, setStudentsText] = useState(``); // leer starten
+  const [students, setStudents] = useState([]);
+  const [capacityOutside, setCapacityOutside] = useState(3);
+  const [capacityGroup, setCapacityGroup] = useState(3);
+  const [outside, setOutside] = useState([]);
+  const [groupRoom, setGroupRoom] = useState([]);
+  const [classroom, setClassroom] = useState([]);
+  const [history, setHistory] = useState({}); // leer starten
 
-[data-theme="dark"] {
-  --bg: var(--bg-dark);
-  --card-bg: var(--card-dark);
-  --text-color: var(--text-dark);
-  --input-bg: var(--input-dark);
-  --input-border: var(--input-border-dark);
-}
+  // parse students text
+  useEffect(() => {
+    const arr = studentsText.split(/\r?\n/).map(s => s.trim()).filter(s => s);
+    setStudents(Array.from(new Set(arr)));
+  }, [studentsText]);
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--bg);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+  // Vollständig zufällige Zuteilung
+  const shuffleArray = arr => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
 
-.app-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
+  const assign = () => {
+    if (!students.length) return;
+    const shuffled = shuffleArray(students);
+    const takeOutside = Math.min(capacityOutside, shuffled.length);
+    const outsideSel = shuffled.slice(0, takeOutside);
+    const remaining = shuffled.slice(takeOutside);
+    const takeGroup = Math.min(capacityGroup, remaining.length);
+    const groupSel = remaining.slice(0, takeGroup);
+    const rest = remaining.slice(takeGroup);
 
-.app-inner {
-  width: 100%;
-  max-width: 900px;
-}
+    setOutside(outsideSel);
+    setGroupRoom(groupSel);
+    setClassroom(rest);
 
-/* Cards */
-.card {
-  background-color: var(--card-bg);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
-  transition: 0.3s;
-  text-align: center;
-}
-.card:hover {
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
+    // Update history nur für aktuelle Session
+    const newHistory = {};
+    students.forEach(n => { newHistory[n] = { outside:0, group:0, classroom:0 }; });
+    outsideSel.forEach(n => newHistory[n].outside++);
+    groupSel.forEach(n => newHistory[n].group++);
+    rest.forEach(n => newHistory[n].classroom++);
+    setHistory(newHistory);
+  };
 
-/* Inputs & Textareas */
-.card-input, input, textarea {
-  width: 80%;
-  margin: 0 auto;
-  border-radius: 12px;
-  border: 1px solid var(--input-border);
-  padding: 10px;
-  font-family: monospace;
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  display: block;
-}
+  const resetHistory = () => { setHistory({}); };
 
-/* Buttons */
-.btn {
-  border: none;
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s all;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow:0 6px 12px rgba(0,0,0,0.2);
-}
+  return (
+    <div className="app-container">
+      <div className="app-inner">
+        <header className="app-header" style={{textAlign:"center", marginBottom:"20px"}}>
+          <h1>Schüler-Zuteilung</h1>
+          <p>Konfiguriere Schüler, Kapazitäten und weise zufällig zu</p>
+        </header>
 
-.btn-primary { background-color: var(--primary); color:white; }
-.btn-primary:hover { background-color: var(--primary-hover); }
+        <main className="app-main">
+          <section className="card">
+            <h2>Schülerliste</h2>
+            <textarea
+              value={studentsText}
+              onChange={e => setStudentsText(e.target.value)}
+              rows={10}
+              className="card-input"
+            />
+            <div className="card-controls" style={{marginTop:"15px", display:"flex", justifyContent:"center", gap:"15px"}}>
+              <label>Außenbereich<input type="number" value={capacityOutside} onChange={e => setCapacityOutside(Number(e.target.value))}/></label>
+              <label>Gruppenraum<input type="number" value={capacityGroup} onChange={e => setCapacityGroup(Number(e.target.value))}/></label>
+            </div>
+            <div className="card-buttons" style={{marginTop:"15px", display:"flex", justifyContent:"center", gap:"10px", flexWrap:"wrap"}}>
+              <button onClick={assign} className="btn btn-primary">Zuweisen</button>
+              <button onClick={resetHistory} className="btn btn-danger">Verlauf zurücksetzen</button>
+            </div>
+          </section>
 
-.btn-danger { background-color: var(--danger); color:white; }
-.btn-danger:hover { background-color: var(--danger-hover); }
+          <section className="card">
+            <h2>Aktuelle Zuteilung</h2>
+            <div className="grid-section">
+              <div style={{textAlign:"center"}}>
+                <h3>Außenbereich ({outside.length})</h3>
+                <ul>{outside.map(n => <li key={n}>{n}</li>)}</ul>
+              </div>
+              <div style={{textAlign:"center"}}>
+                <h3>Gruppenraum ({groupRoom.length})</h3>
+                <ul>{groupRoom.map(n => <li key={n}>{n}</li>)}</ul>
+              </div>
+              <div style={{textAlign:"center"}}>
+                <h3>Klassenzimmer ({classroom.length})</h3>
+                <ul>{classroom.map(n => <li key={n}>{n}</li>)}</ul>
+              </div>
+            </div>
 
-.btn-outline {
-  background:none;
-  border:1px solid var(--input-border);
-  color: var(--text-color);
-}
-.btn-outline:hover { background-color: rgba(0,0,0,0.05); }
-
-/* Grid */
-.app-main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-}
-
-/* Sections inside grid */
-.grid-section {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  justify-items: center;
-}
-@media(min-width:768px){
-  .grid-section { grid-template-columns: repeat(3, 1fr); }
-}
-
-/* History table */
-.history-table {
-  width: 90%;
-  margin: 10px auto;
-  border-collapse: separate;
-  border-spacing: 0 8px;
-}
-.history-table th, .history-table td {
-  border: 1px solid var(--input-border);
-  padding: 8px 12px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-/* Theme toggle */
-.theme-toggle-container {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 1000;
-}
-.theme-toggle-btn {
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: background-color 0.3s, transform 0.2s;
-}
-.theme-toggle-btn:hover {
-  background-color: var(--primary-hover);
-  transform: scale(1.05);
+            <h3 style={{marginTop:"20px"}}>Verlauf</h3>
+            <table className="history-table">
+              <thead>
+                <tr><th>Name</th><th>Außen</th><th>Gruppe</th><th>Klassenzimmer</th></tr>
+              </thead>
+              <tbody>
+                {students.map(name => {
+                  const row = history[name] || {outside:0, group:0, classroom:0};
+                  return (
+                    <tr key={name}>
+                      <td>{name}</td>
+                      <td>{row.outside}</td>
+                      <td>{row.group}</td>
+                      <td>{row.classroom}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </section>
+        </main>
+      </div>
+    </div>
+  );
 }

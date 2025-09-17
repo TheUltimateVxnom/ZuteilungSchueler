@@ -1,220 +1,60 @@
-/* ---------- Farbvariablen & Dark Mode ---------- */
 :root {
-  --bg-color: #f0f0f0;
-  --card-bg: #ffffff;
-  --text-color: #111111;
-  --accent-color: #4a90e2;
-  --button-bg: #4a90e2;
-  --button-text: #ffffff;
-  --shadow-color: rgba(0,0,0,0.2);
+  --bg-light: #f0f2f5;
+  --bg-dark: #1f1f1f;
+  --card-light: #ffffff;
+  --card-dark: #2b2b2b;
+  --text-light: #1f1f1f;
+  --text-dark: #f0f0f0;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --danger: #dc2626;
+}
+
+[data-theme="light"] {
+  --bg: var(--bg-light);
+  --card-bg: var(--card-light);
+  --text-color: var(--text-light);
 }
 
 [data-theme="dark"] {
-  --bg-color: #121212;
-  --card-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --accent-color: #357ab8;
-  --button-bg: #357ab8;
-  --button-text: #ffffff;
-  --shadow-color: rgba(0,0,0,0.6);
+  --bg: var(--bg-dark);
+  --card-bg: var(--card-dark);
+  --text-color: var(--text-dark);
 }
 
-/* ---------- Body ---------- */
 body {
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-color);
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg);
   color: var(--text-color);
 }
 
-/* ---------- Buttons ---------- */
-#theme-toggle {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  font-weight: bold;
-  box-shadow: 0 4px 8px var(--shadow-color);
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
+.app-container { min-height: 100vh; display:flex; justify-content:center; padding:20px;}
+.app-inner { max-width:1000px; width:100%; }
+.app-header h1 { font-size:2rem; margin-bottom:0.2rem; }
+.app-header p { color:gray; margin-bottom:1rem; }
 
-#theme-toggle:hover {
-  transform: scale(1.05);
-  background-color: #2c75b5;
-}
+.card { background-color: var(--card-bg); padding:20px; border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-bottom:20px; transition:0.3s; }
+.card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.15); }
 
-#admin-button {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  width: 22px;
-  height: 22px;
-  opacity: 0.15;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: var(--text-color);
-  z-index: 1000;
-}
+.card-input { width:100%; border-radius:12px; border:1px solid #ccc; padding:10px; font-family: monospace; }
 
-/* ---------- Animations ---------- */
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
+.card-controls { display:flex; gap:10px; margin-top:10px; }
+.card-controls label { display:flex; flex-direction:column; font-size:0.9rem; }
+.card-controls input { border-radius:10px; border:1px solid #ccc; padding:5px; width:80px; }
 
-@keyframes slideUp {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
-}
+.card-buttons { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+.btn-primary { background-color:var(--primary); color:white; border:none; padding:8px 16px; border-radius:12px; cursor:pointer; transition:0.2s; }
+.btn-primary:hover { background-color:var(--primary-hover); }
 
-/* ---------- Wartungsmodus ---------- */
-.maintenance-overlay {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #2c3e50, #4a4a4a);
-  flex-direction: column;
-  text-align: center;
-  padding: 20px;
-  border-radius: 12px;
-  animation: fadeIn 0.8s ease-in-out;
-}
+.btn-danger { background-color:var(--danger); color:white; border:none; padding:8px 16px; border-radius:12px; cursor:pointer; transition:0.2s; }
+.btn-danger:hover { background-color:#b91c1c; }
 
-.maintenance-overlay h1 {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  color: #ff5555;
-  text-shadow: 1px 1px 2px #000;
-}
+.btn-outline { border:1px solid #ccc; padding:8px 16px; border-radius:12px; background:none; cursor:pointer; transition:0.2s; }
+.btn-outline:hover { background-color:rgba(0,0,0,0.05); }
 
-.maintenance-overlay p {
-  font-size: 1.2rem;
-  color: #ddd;
-}
+.grid-section { display:grid; grid-template-columns:1fr; gap:15px; }
+@media(min-width:768px){ .grid-section { grid-template-columns:repeat(3,1fr); } }
 
-/* ---------- Admin Login ---------- */
-.login-popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.75);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.login-card {
-  background-color: var(--card-bg);
-  padding: 35px;
-  border-radius: 20px;
-  min-width: 320px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  box-shadow: 0 12px 25px var(--shadow-color);
-  animation: slideUp 0.5s ease-in-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.login-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 35px var(--shadow-color);
-}
-
-.login-card h2 {
-  margin: 0;
-  font-size: 1.8rem;
-  text-align: center;
-}
-
-.login-card input {
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #555;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  outline: none;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.login-card input:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 8px var(--accent-color);
-}
-
-.login-card button {
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.login-card button:hover {
-  transform: scale(1.05);
-  background-color: #2c75b5;
-}
-
-/* ---------- Normaler Web Content ---------- */
-.main-content {
-  max-width: 1200px;
-  margin: 80px auto 40px auto;
-  padding: 20px;
-  background-color: var(--card-bg);
-  border-radius: 16px;
-  box-shadow: 0 8px 20px var(--shadow-color);
-  animation: fadeIn 0.8s ease-in-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.main-content:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 30px var(--shadow-color);
-}
-
-.main-content h1,
-.main-content h2 {
-  margin-top: 0;
-  color: var(--accent-color);
-  transition: color 0.3s;
-}
-
-.main-content p {
-  line-height: 1.6;
-  color: var(--text-color);
-}
-
-.main-content button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border-radius: 12px;
-  padding: 10px 16px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 10px;
-  transition: all 0.3s ease;
-}
-
-.main-content button:hover {
-  transform: scale(1.05);
-  background-color: #2c75b5;
-}
+.history-table { width:100%; border-collapse:collapse; margin-top:10px; }
+.history-table th, .history-table td { border:1px solid #ccc; padding:6px 10px; border-radius:10px; }

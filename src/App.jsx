@@ -11,13 +11,13 @@ export default function App() {
   const [history, setHistory] = useState({});
   const STORAGE_KEY = "schueler_zuteilung_state_v1";
 
-  // Schülerliste parsen
+  // Parse students text
   useEffect(() => {
-    const arr = studentsText.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    const arr = studentsText.split(/\r?\n/).map(s => s.trim()).filter(s => s);
     setStudents(Array.from(new Set(arr)));
   }, [studentsText]);
 
-  // History laden
+  // Load history
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -33,10 +33,19 @@ export default function App() {
     catch {}
   };
 
-  // **Zufällige Zuteilung**
+  // Vollständig zufällige Zuteilung
+  const shuffleArray = arr => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
   const assign = () => {
     if (!students.length) return;
-    const shuffled = [...students].sort(() => Math.random() - 0.5);
+    const shuffled = shuffleArray(students);
     const takeOutside = Math.min(capacityOutside, shuffled.length);
     const outsideSel = shuffled.slice(0, takeOutside);
     const remaining = shuffled.slice(takeOutside);
@@ -48,6 +57,7 @@ export default function App() {
     setGroupRoom(groupSel);
     setClassroom(rest);
 
+    // Update history
     const newHistory = { ...history };
     students.forEach(n => { if (!newHistory[n]) newHistory[n] = { outside:0, group:0, classroom:0 }; });
     outsideSel.forEach(n => newHistory[n].outside++);
@@ -58,15 +68,17 @@ export default function App() {
   };
 
   const resetHistory = () => { setHistory({}); localStorage.removeItem(STORAGE_KEY); };
+
   const exportJSON = () => {
-    const blob = new Blob([JSON.stringify({students,capacityOutside,capacityGroup,history},null,2)], {type:"application/json"});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=url;
-    a.download="schueler_zuteilung.json";
+    const blob = new Blob([JSON.stringify({students,capacityOutside,capacityGroup,history}, null,2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "schueler_zuteilung.json";
     a.click();
     URL.revokeObjectURL(url);
   };
+
   const importJSON = file => {
     const reader = new FileReader();
     reader.onload = e => {
@@ -82,69 +94,59 @@ export default function App() {
   };
 
   return (
-    <div className="app-container p-6 min-h-screen">
-      <div className="app-inner max-w-6xl mx-auto">
-
-        <header className="app-header mb-6">
-          <h1 className="text-3xl font-bold">Schüler-Zuteilung</h1>
-          <p className="text-gray-500 mt-1">Konfiguriere Schüler, Kapazitäten und weise komplett zufällig zu</p>
+    <div className="app-container">
+      <div className="app-inner">
+        <header className="app-header" style={{textAlign:"center", marginBottom:"20px"}}>
+          <h1>Schüler-Zuteilung</h1>
+          <p>Konfiguriere Schüler, Kapazitäten und weise zufällig zu</p>
         </header>
 
-        <main className="app-main grid grid-cols-1 md:grid-cols-2 gap-6">
-
+        <main className="app-main">
           <section className="card">
-            <h2 className="text-xl font-semibold mb-2">Schülerliste</h2>
+            <h2>Schülerliste</h2>
             <textarea
               value={studentsText}
-              onChange={e=>setStudentsText(e.target.value)}
+              onChange={e => setStudentsText(e.target.value)}
               rows={10}
               className="card-input"
             />
-            <div className="card-controls mt-4 flex gap-4 flex-wrap">
-              <label className="flex flex-col">
-                <span className="text-sm text-gray-500">Außenbereich</span>
-                <input type="number" value={capacityOutside} onChange={e=>setCapacityOutside(Number(e.target.value))} className="card-input"/>
-              </label>
-              <label className="flex flex-col">
-                <span className="text-sm text-gray-500">Gruppenraum</span>
-                <input type="number" value={capacityGroup} onChange={e=>setCapacityGroup(Number(e.target.value))} className="card-input"/>
-              </label>
+            <div className="card-controls" style={{marginTop:"15px", display:"flex", justifyContent:"center", gap:"15px"}}>
+              <label>Außenbereich<input type="number" value={capacityOutside} onChange={e => setCapacityOutside(Number(e.target.value))}/></label>
+              <label>Gruppenraum<input type="number" value={capacityGroup} onChange={e => setCapacityGroup(Number(e.target.value))}/></label>
             </div>
-            <div className="card-buttons mt-4 flex flex-wrap gap-2">
+            <div className="card-buttons" style={{marginTop:"15px", display:"flex", justifyContent:"center", gap:"10px", flexWrap:"wrap"}}>
               <button onClick={assign} className="btn btn-primary">Zuweisen</button>
               <button onClick={resetHistory} className="btn btn-danger">Verlauf zurücksetzen</button>
               <button onClick={exportJSON} className="btn btn-outline">Export</button>
-              <label className="btn btn-outline cursor-pointer">Import
-                <input type="file" style={{display:"none"}} onChange={e=>importJSON(e.target.files[0])}/>
-              </label>
+              <label className="btn btn-outline cursor-pointer">Import<input type="file" style={{display:"none"}} onChange={e=>importJSON(e.target.files[0])}/></label>
             </div>
           </section>
 
           <section className="card">
-            <h2 className="text-xl font-semibold mb-2">Aktuelle Zuteilung</h2>
+            <h2>Aktuelle Zuteilung</h2>
             <div className="grid-section">
-              <div>
-                <h3 className="font-medium">Außenbereich ({outside.length})</h3>
-                <ul className="list-disc ml-5">{outside.map(n=><li key={n}>{n}</li>)}</ul>
+              <div style={{textAlign:"center"}}>
+                <h3>Außenbereich ({outside.length})</h3>
+                <ul>{outside.map(n => <li key={n}>{n}</li>)}</ul>
               </div>
-              <div>
-                <h3 className="font-medium">Gruppenraum ({groupRoom.length})</h3>
-                <ul className="list-disc ml-5">{groupRoom.map(n=><li key={n}>{n}</li>)}</ul>
+              <div style={{textAlign:"center"}}>
+                <h3>Gruppenraum ({groupRoom.length})</h3>
+                <ul>{groupRoom.map(n => <li key={n}>{n}</li>)}</ul>
               </div>
-              <div>
-                <h3 className="font-medium">Klassenzimmer ({classroom.length})</h3>
-                <ul className="list-disc ml-5">{classroom.map(n=><li key={n}>{n}</li>)}</ul>
+              <div style={{textAlign:"center"}}>
+                <h3>Klassenzimmer ({classroom.length})</h3>
+                <ul>{classroom.map(n => <li key={n}>{n}</li>)}</ul>
               </div>
             </div>
 
-            <h3 className="mt-4 font-semibold">Verlauf</h3>
+            <h3 style={{marginTop:"20px"}}>Verlauf</h3>
             <table className="history-table">
               <thead>
                 <tr><th>Name</th><th>Außen</th><th>Gruppe</th><th>Klassenzimmer</th></tr>
               </thead>
               <tbody>
                 {students.map(name => {
-                  const row = history[name] || {outside:0,group:0,classroom:0};
+                  const row = history[name] || {outside:0, group:0, classroom:0};
                   return (
                     <tr key={name}>
                       <td>{name}</td>
@@ -157,9 +159,7 @@ export default function App() {
               </tbody>
             </table>
           </section>
-
         </main>
-
       </div>
     </div>
   );

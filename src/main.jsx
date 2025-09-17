@@ -6,24 +6,19 @@ import "./index.css";
 function Root() {
   const [theme, setTheme] = useState("light");
 
-  // Theme auf <html> setzen
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
     <>
-      {/* Dark/Light Mode Button unten rechts */}
       <div className="theme-toggle-container">
         <button onClick={toggleTheme} className="theme-toggle-btn">
           {theme === "dark" ? "🌞 Hell" : "🌙 Dunkel"}
         </button>
       </div>
-
       <App />
     </>
   );

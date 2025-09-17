@@ -18,7 +18,7 @@ function Root() {
     <>
       <div className="theme-toggle-container">
         <button onClick={toggleTheme} className="theme-toggle-btn">
-          {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+          {theme === "dark" ? "🌞 Hell" : "🌙 Dunkel"}
         </button>
       </div>
       <App />

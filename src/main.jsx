@@ -10,9 +10,7 @@ function Root() {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
     <>
@@ -22,7 +20,6 @@ function Root() {
         </button>
       </div>
       <App />
-      <div className="copyright">© Lukas Diezinger</div>
     </>
   );
 }

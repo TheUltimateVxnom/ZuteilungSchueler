@@ -6,7 +6,6 @@ import "./index.css";
 
 function Root() {
   const [theme, setTheme] = useState("dark");
-  const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -16,16 +15,20 @@ function Root() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  // Wartungsmodus aus Environment Variable
+  const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
+  console.log("Maintenance mode:", maintenance); // Testausgabe
+
   return (
     <>
-      {/* Theme Toggle bleibt immer sichtbar */}
-      <div className="theme-toggle-container" style={{ position: "fixed", top: 10, right: 10, zIndex: 999 }}>
-        <button onClick={toggleTheme} className="theme-toggle-btn">
+      {/* Theme-Toggle immer sichtbar */}
+      <div style={{ position: "fixed", top: 10, right: 10, zIndex: 999 }}>
+        <button onClick={toggleTheme}>
           {theme === "dark" ? "🌞 Hell" : "🌙 Dunkel"}
         </button>
       </div>
 
-      {/* Inhalt abhängig vom Maintenance-Modus */}
+      {/* Content */}
       {maintenance ? <Maintenance /> : <App />}
     </>
   );

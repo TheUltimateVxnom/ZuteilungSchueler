@@ -17,11 +17,12 @@ function Root() {
   return (
     <>
       <div className="theme-toggle-container">
-        <button className="theme-toggle-btn" onClick={toggleTheme}>
+        <button onClick={toggleTheme} className="theme-toggle-btn">
           {theme === "dark" ? "🌞 Hell" : "🌙 Dunkel"}
         </button>
       </div>
       <App />
+      <div className="copyright">© Lukas Diezinger</div>
     </>
   );
 }

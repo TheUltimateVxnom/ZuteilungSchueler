@@ -3,14 +3,12 @@ import React, { useState, useEffect } from "react";
 export default function Maintenance() {
   const [theme, setTheme] = useState("light");
 
-  // Theme beim Mount setzen
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
   }, []);
 
-  // Theme wechseln
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -20,7 +18,6 @@ export default function Maintenance() {
 
   return (
     <div className="app-container" style={{ textAlign: "center", paddingTop: "50px" }}>
-      {/* Dark/Light Mode Button */}
       <div className="theme-toggle-container">
         <button className="theme-toggle-btn" onClick={toggleTheme}>
           {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}

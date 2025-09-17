@@ -8,7 +8,7 @@ export default function Maintenance() {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      height: "100vh",
+      height: "80vh", // genug Platz für Buttons oben
       fontFamily: "sans-serif",
       textAlign: "center",
       padding: "20px"

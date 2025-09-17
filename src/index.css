@@ -1,5 +1,52 @@
 /* index.css */
+
+/* Variablen für Light/Dark Mode */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #111111;
+  --card-bg: #f0f0f0;
+}
+
+[data-theme="dark"] {
+  --bg-color: #111111;
+  --text-color: #f0f0f0;
+  --card-bg: #1e1e1e;
+}
+
+/* Grundlayout */
 body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  font-family: sans-serif;
+  padding: 0;
+}
+
+/* Abgerundete Karten */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Toggle Button */
+#theme-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+#theme-toggle:hover {
+  background-color: var(--text-color);
+  color: var(--bg-color);
 }

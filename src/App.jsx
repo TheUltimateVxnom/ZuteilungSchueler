@@ -112,13 +112,17 @@ function App() {
         {/* History */}
         <section className="card">
           <h2>History</h2>
-          <ul>
-            {history.map((h, i) => (
-              <li key={i}>
-                {h.student} → {h.room} ({h.timestamp})
-              </li>
-            ))}
-          </ul>
+          {history.length === 0 ? (
+            <p className="placeholder">Noch keine Einträge</p>
+          ) : (
+            <ul>
+              {history.map((h, i) => (
+                <li key={i}>
+                  {h.student} → {h.room} ({h.timestamp})
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       </main>
     </div>

@@ -1,4 +1,3 @@
-// Maintenance.jsx
 import React from "react";
 
 export default function Maintenance() {
@@ -8,7 +7,7 @@ export default function Maintenance() {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      height: "80vh", // genug Platz für Buttons oben
+      height: "80vh",
       fontFamily: "sans-serif",
       textAlign: "center",
       padding: "20px"

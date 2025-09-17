@@ -7,6 +7,7 @@ import "./index.css";
 function Root() {
   const [theme, setTheme] = useState("dark");
 
+  // Theme anwenden
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
@@ -17,13 +18,12 @@ function Root() {
 
   // Wartungsmodus aus Environment Variable
   const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
-  console.log("Maintenance mode:", maintenance); // Testausgabe
 
   return (
     <>
       {/* Theme-Toggle immer sichtbar */}
-      <div style={{ position: "fixed", top: 10, right: 10, zIndex: 999 }}>
-        <button onClick={toggleTheme}>
+      <div className="theme-toggle-container">
+        <button className="theme-toggle-btn" onClick={toggleTheme}>
           {theme === "dark" ? "🌞 Hell" : "🌙 Dunkel"}
         </button>
       </div>

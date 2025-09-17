@@ -1,132 +1,173 @@
-import React, { useState } from "react";
-import "./index.css";
+import React, { useEffect, useState } from "react";
 
-function App() {
+export default function App() {
+  const [studentsText, setStudentsText] = useState("");
   const [students, setStudents] = useState([]);
-  const [newStudent, setNewStudent] = useState("");
-  const [history, setHistory] = useState([]);
-  const [groupRoom, setGroupRoom] = useState("");
-  const [outdoor, setOutdoor] = useState("");
+  const [capacityOutside, setCapacityOutside] = useState(3);
+  const [capacityGroup, setCapacityGroup] = useState(3);
+  const [outside, setOutside] = useState([]);
+  const [groupRoom, setGroupRoom] = useState([]);
+  const [classroom, setClassroom] = useState([]);
+  const [history, setHistory] = useState({});
+  const STORAGE_KEY = "schueler_zuteilung_state_v1";
 
-  const addStudent = () => {
-    if (newStudent.trim() !== "") {
-      setStudents([...students, newStudent.trim()]);
-      setNewStudent("");
-    }
+  // Update students array from textarea
+  useEffect(() => {
+    const arr = studentsText.split(/\r?\n/).map(s => s.trim()).filter(s => s);
+    setStudents(Array.from(new Set(arr)));
+  }, [studentsText]);
+
+  // Load saved history if exists
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.history) setHistory(parsed.history);
+      }
+    } catch {}
+  }, []);
+
+  const persist = newHistory => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ history: newHistory })); }
+    catch {}
   };
 
-  const assignStudent = (student, room) => {
-    const timestamp = new Date().toLocaleTimeString();
-    setHistory([{ student, room, timestamp }, ...history]);
-    if (room === "Gruppenraum") {
-      setGroupRoom(student);
-    } else {
-      setOutdoor(student);
-    }
+  // Random assignment
+  const assign = () => {
+    if (!students.length) return;
+    const shuffled = [...students].sort(() => Math.random() - 0.5);
+
+    const takeOutside = Math.min(capacityOutside, shuffled.length);
+    const outsideSel = shuffled.slice(0, takeOutside);
+    const remaining = shuffled.slice(takeOutside);
+    const takeGroup = Math.min(capacityGroup, remaining.length);
+    const groupSel = remaining.slice(0, takeGroup);
+    const rest = remaining.slice(takeGroup);
+
+    setOutside(outsideSel);
+    setGroupRoom(groupSel);
+    setClassroom(rest);
+
+    // --- FIX: Alte History beibehalten und hochzählen ---
+    const newHistory = { ...history };
+    students.forEach(n => {
+      if (!newHistory[n]) newHistory[n] = { outside:0, group:0, classroom:0 };
+    });
+    outsideSel.forEach(n => newHistory[n].outside++);
+    groupSel.forEach(n => newHistory[n].group++);
+    rest.forEach(n => newHistory[n].classroom++);
+    // ---------------------------------------------------
+
+    setHistory(newHistory);
+    persist(newHistory);
   };
 
-  const handleExport = () => {
-    const data = JSON.stringify({ students, history });
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "zuteilung.json";
-    a.click();
+  const resetHistory = () => { setHistory({}); localStorage.removeItem(STORAGE_KEY); };
+
+  const exportJSON = () => { 
+    const blob = new Blob([JSON.stringify({students,capacityOutside,capacityGroup,history},null,2)], {type:"application/json"}); 
+    const url=URL.createObjectURL(blob); 
+    const a=document.createElement("a"); 
+    a.href=url; a.download="schueler_zuteilung.json"; 
+    a.click(); 
+    URL.revokeObjectURL(url); 
   };
 
-  const handleImport = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const data = JSON.parse(event.target.result);
-      setStudents(data.students || []);
-      setHistory(data.history || []);
-    };
-    reader.readAsText(file);
+  const importJSON = file => { 
+    const reader = new FileReader(); 
+    reader.onload = e => { 
+      try { 
+        const parsed = JSON.parse(e.target.result); 
+        if(parsed.students) setStudentsText(parsed.students.join("\n")); 
+        if(parsed.capacityOutside) setCapacityOutside(parsed.capacityOutside); 
+        if(parsed.capacityGroup) setCapacityGroup(parsed.capacityGroup); 
+        if(parsed.history){ setHistory(parsed.history); persist(parsed.history); } 
+      } catch(e){ alert("Fehler: "+e.message); } 
+    }; 
+    reader.readAsText(file); 
   };
 
   return (
     <div className="app-container">
-      <header>
-        <h1>Zuteilung Schüler</h1>
-        <div className="card-buttons">
-          <button onClick={handleExport}>Export</button>
-          <label htmlFor="import-file" className="btn-outline">
-            Import
-          </label>
-          <input
-            type="file"
-            id="import-file"
-            accept=".json"
-            onChange={handleImport}
-            style={{ display: "none" }}
-          />
-        </div>
-      </header>
+      <div className="app-inner">
+        <header className="app-header" style={{textAlign:"center"}}>
+          <h1>Schüler-Zuteilung</h1>
+          <p>Konfiguriere Schüler, Kapazitäten und weise zufällig zu</p>
+        </header>
 
-      <main className="app-main">
-        {/* Schülerliste */}
-        <section className="card">
-          <h2>Schülerliste</h2>
-          <ul>
-            {students.map((s, i) => (
-              <li key={i}>
-                {s}
-                <button onClick={() => assignStudent(s, "Gruppenraum")}>
-                  → Gruppenraum
-                </button>
-                <button onClick={() => assignStudent(s, "Außenbereich")}>
-                  → Außenbereich
-                </button>
-              </li>
-            ))}
-          </ul>
-          <div className="add-student">
-            <input
-              type="text"
-              value={newStudent}
-              onChange={(e) => setNewStudent(e.target.value)}
-              placeholder="Neuer Schüler"
+        <main className="app-main">
+          <section className="card">
+            <h2>Schülerliste</h2>
+            <textarea 
+              value={studentsText} 
+              onChange={e=>setStudentsText(e.target.value)} 
+              rows={10} 
+              className="card-input" 
+              placeholder="Namen hier eingeben, jeweils eine Zeile"
             />
-            <button onClick={addStudent}>Hinzufügen</button>
-          </div>
-        </section>
-
-        {/* Zuteilung */}
-        <section className="card">
-          <h2>Eintragung</h2>
-          <div className="assignments">
-            <div>
-              <h3>Gruppenraum</h3>
-              <p>{groupRoom || "-"}</p>
+            <div className="card-controls" style={{display:"flex", justifyContent:"center", gap:"20px", marginTop:"10px"}}>
+              <label>Außenbereich
+                <input type="number" value={capacityOutside} onChange={e=>setCapacityOutside(Number(e.target.value))}/>
+              </label>
+              <label>Gruppenraum
+                <input type="number" value={capacityGroup} onChange={e=>setCapacityGroup(Number(e.target.value))}/>
+              </label>
             </div>
-            <div>
-              <h3>Außenbereich</h3>
-              <p>{outdoor || "-"}</p>
+            <div className="card-buttons" style={{display:"flex", justifyContent:"center", gap:"10px", marginTop:"15px"}}>
+              <button onClick={assign} className="btn btn-primary">Zuweisen</button>
+              <button onClick={resetHistory} className="btn btn-danger">Verlauf zurücksetzen</button>
+              <button onClick={exportJSON} className="btn btn-outline">Export</button>
+              <label className="btn btn-outline btn-import cursor-pointer">
+                Import
+                <input type="file" style={{display:"none"}} onChange={e=>importJSON(e.target.files[0])}/>
+              </label>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* History */}
-        <section className="card">
-          <h2>History</h2>
-          {history.length === 0 ? (
-            <p className="placeholder">Noch keine Einträge</p>
-          ) : (
-            <ul>
-              {history.map((h, i) => (
-                <li key={i}>
-                  {h.student} → {h.room} ({h.timestamp})
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </main>
+          <section className="card">
+            <h2>Aktuelle Zuteilung</h2>
+            <div className="grid-section">
+              <div>
+                <h3>Außenbereich ({outside.length})</h3>
+                <ul>{outside.map(n=><li key={n}>{n}</li>)}</ul>
+              </div>
+              <div>
+                <h3>Gruppenraum ({groupRoom.length})</h3>
+                <ul>{groupRoom.map(n=><li key={n}>{n}</li>)}</ul>
+              </div>
+              <div>
+                <h3>Klassenzimmer ({classroom.length})</h3>
+                <ul>{classroom.map(n=><li key={n}>{n}</li>)}</ul>
+              </div>
+            </div>
+
+            <h3>Verlauf</h3>
+            <table className="history-table">
+              <thead>
+                <tr><th>Name</th><th>Außen</th><th>Gruppe</th><th>Klassenzimmer</th></tr>
+              </thead>
+              <tbody>
+                {students.map(name => {
+                  const row = history[name] || {outside:0, group:0, classroom:0};
+                  return (
+                    <tr key={name}>
+                      <td>{name}</td>
+                      <td>{row.outside}</td>
+                      <td>{row.group}</td>
+                      <td>{row.classroom}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </section>
+        </main>
+
+        <footer className="footer">
+          © Lukas Diezinger
+        </footer>
+      </div>
     </div>
   );
 }
-
-export default App;

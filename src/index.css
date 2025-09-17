@@ -43,7 +43,7 @@ body {
 /* Dark/Light Button */
 .theme-toggle-container {
   position: fixed;
-  top: 15px;
+  bottom: 15px;
   right: 15px;
   z-index: 1000;
 }
@@ -55,7 +55,7 @@ body {
   border-radius: 20px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   transition: background-color 0.3s, transform 0.2s;
 }
 .theme-toggle-btn:hover {
@@ -72,7 +72,9 @@ body {
   margin-bottom: 20px;
   transition: 0.3s;
 }
-.card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
 
 /* Inputs & Textareas */
 .card-input, input, textarea {
@@ -86,8 +88,16 @@ body {
 }
 
 /* Grid Layout */
-.grid-section { display:grid; grid-template-columns:1fr; gap:15px; }
-@media(min-width:768px){ .grid-section { grid-template-columns:repeat(3,1fr); } }
+.grid-section { 
+  display:grid; 
+  grid-template-columns:1fr; 
+  gap:15px; 
+}
+@media(min-width:768px){ 
+  .grid-section { 
+    grid-template-columns:repeat(3,1fr); 
+  } 
+}
 
 /* Buttons Modern */
 .btn {
@@ -99,7 +109,10 @@ body {
   transition: 0.2s all;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
-.btn:hover { transform: translateY(-2px); box-shadow:0 6px 12px rgba(0,0,0,0.2); }
+.btn:hover { 
+  transform: translateY(-2px); 
+  box-shadow:0 6px 12px rgba(0,0,0,0.2); 
+}
 
 /* Button Types */
 .btn-primary { background-color: var(--primary); color:white; }
@@ -119,5 +132,18 @@ body {
 .btn-success:hover { background-color: var(--success-hover); }
 
 /* History Table */
-.history-table { width:100%; border-collapse:collapse; margin-top:10px; }
-.history-table th, .history-table td { border:1px solid var(--input-border); padding:6px 10px; border-radius:10px; }
+.history-table { 
+  width:100%; 
+  border-collapse:collapse; 
+  margin-top:10px; 
+}
+.history-table th, .history-table td { 
+  border:1px solid var(--input-border); 
+  padding:6px 10px; 
+  border-radius:10px; 
+  text-align:left;
+}
+
+/* Even row styling for Dark Mode */
+.history-table tr:nth-child(even) { background-color: rgba(0,0,0,0.03); }
+[data-theme="dark"] .history-table tr:nth-child(even) { background-color: rgba(255,255,255,0.05); }

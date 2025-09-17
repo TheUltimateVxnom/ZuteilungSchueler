@@ -3,9 +3,12 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
+// Globaler Wartungsmodus via Environment Variable
+const maintenanceMode = import.meta.env.VITE_MAINTENANCE === "true";
+
 function Root() {
   const [theme, setTheme] = useState("light");
-  const [maintenance, setMaintenance] = useState(false);
+  const [localMaintenance, setLocalMaintenance] = useState(false); // Optionaler Admin-Shortcut
   const [showLogin, setShowLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,10 +22,10 @@ function Root() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  // Wartungsmodus Login prüfen
-  const handleMaintenanceLogin = () => {
+  // Admin Login für lokales Testen
+  const handleAdminLogin = () => {
     if (username === "admin" && password === "1234") {
-      setMaintenance(true); // Wartungsmodus aktiv
+      setLocalMaintenance(true); // nur lokal
     } else {
       alert("Falsche Zugangsdaten!");
     }
@@ -31,20 +34,10 @@ function Root() {
     setShowLogin(false);
   };
 
-  if (maintenance) {
+  // Wartungsmodus: global via Render OR lokal per Admin Shortcut
+  if (maintenanceMode || localMaintenance) {
     return (
-      <div
-        style={{
-          display: "flex",
-          height: "100vh",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#111",
-          color: "#fff",
-          flexDirection: "column",
-          fontFamily: "sans-serif",
-        }}
-      >
+      <div className="maintenance-overlay">
         <h1>⚠️ Wartungsmodus aktiv</h1>
         <p>Die Website ist momentan nicht verfügbar.</p>
       </div>
@@ -53,73 +46,21 @@ function Root() {
 
   return (
     <>
-      {/* Dark Mode Button */}
-      <button
-        id="theme-toggle"
-        onClick={toggleTheme}
-        style={{
-          position: "fixed",
-          top: "10px",
-          right: "10px",
-          padding: "8px 12px",
-          borderRadius: "12px",
-          border: "none",
-          cursor: "pointer",
-          backgroundColor: "var(--card-bg)",
-          color: "var(--text-color)",
-          fontWeight: "bold",
-          transition: "background-color 0.3s",
-          zIndex: 1000,
-        }}
-      >
+      {/* Dark Mode Toggle */}
+      <button id="theme-toggle" onClick={toggleTheme}>
         Toggle Dark Mode
       </button>
 
-      {/* Versteckter Wartungsmodus-Button unten links */}
+      {/* Versteckter Admin-Button unten links */}
       <button
+        id="admin-button"
         onClick={() => setShowLogin(true)}
-        style={{
-          position: "fixed",
-          bottom: "10px",
-          left: "10px",
-          width: "20px",
-          height: "20px",
-          opacity: 0.2,
-          border: "none",
-          borderRadius: "50%",
-          cursor: "pointer",
-          zIndex: 1000,
-          backgroundColor: "var(--text-color)",
-        }}
       ></button>
 
-      {/* Login-Popup */}
+      {/* Admin Login Popup */}
       {showLogin && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0,0,0,0.7)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 2000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "var(--card-bg)",
-              padding: "30px",
-              borderRadius: "16px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-              minWidth: "300px",
-            }}
-          >
+        <div className="login-popup-overlay">
+          <div className="login-card">
             <h2>Admin Login</h2>
             <input
               placeholder="Username"
@@ -132,7 +73,7 @@ function Root() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleMaintenanceLogin}>Login</button>
+            <button onClick={handleAdminLogin}>Login</button>
             <button onClick={() => setShowLogin(false)}>Abbrechen</button>
           </div>
         </div>

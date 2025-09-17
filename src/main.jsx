@@ -3,12 +3,12 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
-// Globaler Wartungsmodus via Environment Variable
+// Wartungsmodus global via Env
 const maintenanceMode = import.meta.env.VITE_MAINTENANCE === "true";
 
 function Root() {
   const [theme, setTheme] = useState("light");
-  const [localMaintenance, setLocalMaintenance] = useState(false); // Optionaler Admin-Shortcut
+  const [localMaintenance, setLocalMaintenance] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,11 +18,8 @@ function Root() {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
-  // Admin Login für lokales Testen
   const handleAdminLogin = () => {
     if (username === "admin" && password === "1234") {
       setLocalMaintenance(true); // nur lokal
@@ -34,7 +31,7 @@ function Root() {
     setShowLogin(false);
   };
 
-  // Wartungsmodus: global via Render OR lokal per Admin Shortcut
+  // Wartungsmodus anzeigen
   if (maintenanceMode || localMaintenance) {
     return (
       <div className="maintenance-overlay">
@@ -46,18 +43,15 @@ function Root() {
 
   return (
     <>
-      {/* Dark Mode Toggle */}
       <button id="theme-toggle" onClick={toggleTheme}>
         Toggle Dark Mode
       </button>
 
-      {/* Versteckter Admin-Button unten links */}
       <button
         id="admin-button"
         onClick={() => setShowLogin(true)}
       ></button>
 
-      {/* Admin Login Popup */}
       {showLogin && (
         <div className="login-popup-overlay">
           <div className="login-card">
@@ -78,6 +72,13 @@ function Root() {
           </div>
         </div>
       )}
+
+      {/* Normaler Web Content */}
+      <div className="main-content">
+        <h1>Willkommen auf der Seite!</h1>
+        <p>Hier steht dein normaler Content. Schau dir an, wie modern alles aussieht!</p>
+        <button>Beispiel-Button</button>
+      </div>
 
       <App />
     </>

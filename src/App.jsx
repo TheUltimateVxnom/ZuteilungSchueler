@@ -11,47 +11,32 @@ export default function App() {
   const [history, setHistory] = useState({});
   const STORAGE_KEY = "schueler_zuteilung_state_v1";
 
-  // parse student text
   useEffect(() => {
     const arr = studentsText.split(/\r?\n/).map(s => s.trim()).filter(s => s);
     setStudents(Array.from(new Set(arr)));
-
-    // remove history of names that are no longer in the list
-    setHistory(prev => {
-      const filtered = {};
-      arr.forEach(name => { if(prev[name]) filtered[name] = prev[name]; });
-      return filtered;
-    });
   }, [studentsText]);
 
-  // load persisted history
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if(raw){
+      if (raw) {
         const parsed = JSON.parse(raw);
-        if(parsed.history) setHistory(parsed.history);
+        if (parsed.history) setHistory(parsed.history);
       }
     } catch {}
   }, []);
 
   const persist = newHistory => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ history: newHistory })); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ history: newHistory })); }
+    catch {}
   };
 
-  // completely random shuffle
-  const shuffle = arr => {
-    const copy = arr.slice();
-    for(let i = copy.length - 1; i > 0; i--){
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy;
-  };
+  // Zufällige Auswahl ohne Gewichtung
+  const randomShuffle = arr => arr.sort(() => Math.random() - 0.5);
 
   const assign = () => {
-    if(!students.length) return;
-    const shuffled = shuffle(students);
+    if (!students.length) return;
+    const shuffled = randomShuffle([...students]);
 
     const takeOutside = Math.min(capacityOutside, shuffled.length);
     const outsideSel = shuffled.slice(0, takeOutside);
@@ -64,25 +49,20 @@ export default function App() {
     setGroupRoom(groupSel);
     setClassroom(rest);
 
-    const newHistory = { ...history };
-    students.forEach(n => { if(!newHistory[n]) newHistory[n] = { outside:0, group:0, classroom:0 }; });
-    outsideSel.forEach(n => newHistory[n].outside++);
-    groupSel.forEach(n => newHistory[n].group++);
-    rest.forEach(n => newHistory[n].classroom++);
+    const newHistory = {};
+    [...outsideSel, ...groupSel, ...rest].forEach(n => { newHistory[n] = { outside:0, group:0, classroom:0 }; });
     setHistory(newHistory);
     persist(newHistory);
   };
 
   const resetHistory = () => { setHistory({}); localStorage.removeItem(STORAGE_KEY); };
+
   const exportJSON = () => {
     const blob = new Blob([JSON.stringify({students,capacityOutside,capacityGroup,history},null,2)], {type:"application/json"});
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "schueler_zuteilung.json";
-    a.click();
-    URL.revokeObjectURL(url);
+    const a = document.createElement("a"); a.href = url; a.download = "schueler_zuteilung.json"; a.click(); URL.revokeObjectURL(url);
   };
+
   const importJSON = file => {
     const reader = new FileReader();
     reader.onload = e => {
@@ -117,7 +97,10 @@ export default function App() {
               <button onClick={assign} className="btn btn-primary">Zuweisen</button>
               <button onClick={resetHistory} className="btn btn-danger">Verlauf zurücksetzen</button>
               <button onClick={exportJSON} className="btn btn-outline">Export</button>
-              <label className="btn btn-outline cursor-pointer">Import<input type="file" style={{display:"none"}} onChange={e=>importJSON(e.target.files[0])}/></label>
+              <label className="btn btn-outline cursor-pointer" style={{fontWeight:"500", padding:"10px 14px"}}>
+                Import
+                <input type="file" style={{display:"none"}} onChange={e=>importJSON(e.target.files[0])}/>
+              </label>
             </div>
           </section>
 
@@ -134,21 +117,15 @@ export default function App() {
                 <tr><th>Name</th><th>Außen</th><th>Gruppe</th><th>Klassenzimmer</th></tr>
               </thead>
               <tbody>
-                {students.map(name => {
-                  const row = history[name] || {outside:0,group:0,classroom:0};
-                  return (
-                    <tr key={name}>
-                      <td>{name}</td>
-                      <td>{row.outside}</td>
-                      <td>{row.group}</td>
-                      <td>{row.classroom}</td>
-                    </tr>
-                  );
-                })}
+                {students.map(name=>{ const row = history[name]||{outside:0,group:0,classroom:0}; return (<tr key={name}><td>{name}</td><td>{row.outside}</td><td>{row.group}</td><td>{row.classroom}</td></tr>); })}
               </tbody>
             </table>
           </section>
         </main>
+
+        <footer className="footer">
+          <p>© Lukas Diezinger</p>
+        </footer>
       </div>
     </div>
   );

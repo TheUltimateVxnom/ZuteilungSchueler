@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 
 function Root() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);

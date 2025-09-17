@@ -10,12 +10,14 @@ function Root() {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <>
       <div className="theme-toggle-container">
-        <button onClick={toggleTheme} className="theme-toggle-btn">
+        <button className="theme-toggle-btn" onClick={toggleTheme}>
           {theme === "dark" ? "🌞 Hell" : "🌙 Dunkel"}
         </button>
       </div>

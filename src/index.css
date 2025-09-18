@@ -138,19 +138,6 @@ body {
 }
 .btn-outline:hover { background-color: rgba(0,0,0,0.05); }
 
-/* Import Button */
-.btn-import {
-  /* Nur das nötigste, Rest kommt von .btn */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  font-size: 0.90rem;
-}
-.btn-import input[type="file"] {
-  display: none;
-}
-
 /* History Table */
 .history-table { width:100%; border-collapse:collapse; margin-top:15px; }
 .history-table th, .history-table td { border:1px solid var(--input-border); padding:8px 12px; border-radius:10px; text-align:center; }

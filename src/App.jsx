@@ -151,7 +151,7 @@ export default function App() {
               <button onClick={resetHistory} className="btn btn-danger">Verlauf zurücksetzen</button>
               <button onClick={exportJSON} className="btn btn-outline">Export</button>
               <button
-                className="btn btn-outline btn-import"
+                className="btn btn-outline"
                 onClick={() => document.getElementById('import-file').click()}
               >
                 Import

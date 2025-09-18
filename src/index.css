@@ -144,6 +144,13 @@ body {
   display: inline-flex;
   align-items: center;
   font-weight: bold; /* Schrift wie die anderen Buttons */
+  font-family: inherit;
+  font-size: inherit;
+  vertical-align: middle;
+}
+.btn-import input[type="file"] {
+  font-family: inherit;
+  font-size: inherit;
 }
 
 /* History Table */

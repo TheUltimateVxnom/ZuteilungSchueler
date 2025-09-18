@@ -140,17 +140,7 @@ body {
 
 /* Import Button */
 .btn-import {
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.2s all;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-  background: none;
-  color: var(--text-color);
+  /* Nur das nötigste, Rest kommt von .btn */
   display: inline-flex;
   align-items: center;
   justify-content: center;

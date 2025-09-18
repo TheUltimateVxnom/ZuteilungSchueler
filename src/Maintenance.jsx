@@ -24,12 +24,15 @@ export default function Maintenance() {
         </button>
       </div>
 
-      <h1>🚧 Wartungsmodus aktiv</h1>
-      <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
-
-      <footer className="footer" style={{ marginTop: "50px" }}>
-        © Lukas Diezinger
-      </footer>
+      <div className="app-inner">
+        <section className="card" style={{ maxWidth: 500, margin: "40px auto" }}>
+          <h1>🚧 Wartungsmodus aktiv</h1>
+          <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
+        </section>
+        <footer className="footer" style={{ marginTop: "50px" }}>
+          © Lukas Diezinger
+        </footer>
+      </div>
     </div>
   );
 }

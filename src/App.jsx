@@ -129,7 +129,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, v1.1
+          © Lukas Diezinger, v1.2
         </a>
       </footer>
       <div className="app-container">

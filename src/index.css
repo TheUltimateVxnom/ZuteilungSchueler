@@ -170,7 +170,15 @@ body {
   box-shadow: 0 0 32px 6px #ffd700, 0 0 16px 2px #ff9800;
 }
 
-@keyframes blink-glow {
+@keyframes blink-glow-light {
+  0%, 100% {
+    box-shadow: 0 0 16px 2px #ffd700, 0 0 8px 1px #ff9800;
+  }
+  50% {
+    box-shadow: 0 0 32px 8px #ffd700, 0 0 24px 4px #ff9800;
+  }
+}
+@keyframes blink-glow-dark {
   0%, 100% {
     box-shadow: 0 0 16px 2px #ffd700, 0 0 8px 1px #ff9800;
   }
@@ -179,8 +187,11 @@ body {
   }
 }
 
+[data-theme="light"] .card.maintenance-glow {
+  animation: blink-glow-light 1s infinite;
+}
 [data-theme="dark"] .card.maintenance-glow {
-  animation: blink-glow 1s infinite;
+  animation: blink-glow-dark 1s infinite;
 }
 
 /* Button Hover: Light Mode = Schatten, Dark Mode = weißer Glow */

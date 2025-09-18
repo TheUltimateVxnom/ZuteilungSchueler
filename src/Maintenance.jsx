@@ -34,7 +34,7 @@ export default function Maintenance() {
           {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
         </button>
       </div>
-      <section className="card" style={{ maxWidth: 500, margin: "0 auto" }}>
+      <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
         <h1>🚧 Wartungsmodus aktiv</h1>
         <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
       </section>

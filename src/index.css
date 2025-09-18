@@ -145,6 +145,7 @@ body {
   align-items: center;
   justify-content: center;
   vertical-align: middle;
+  font-size: 0.95rem;
 }
 .btn-import input[type="file"] {
   display: none;

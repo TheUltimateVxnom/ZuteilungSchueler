@@ -44,15 +44,18 @@ export default function App() {
   const assign = () => {
     if (!students.length) return;
 
-    // Hilfsfunktion: Ziehe n Namen nach Gewicht aus einer Liste
+    // Für jeden Schüler: Wie oft war er in jedem Raum?
+    const getCounts = name => history[name] || { outside: 0, group: 0, classroom: 0 };
+
+    // Gewicht: Je weniger in einem Raum, desto höher die Chance
     function weightedPick(list, count, key) {
-      // Ermittle max-Wert für das Feld
-      const max = Math.max(...list.map(n => history[n]?.[key] ?? 0));
-      // Erzeuge Gewicht: Je weniger, desto höher
+      // Finde für jeden Schüler die minimale Anzahl in allen Räumen
       const weighted = [];
       list.forEach(n => {
-        const freq = history[n]?.[key] ?? 0;
-        const weight = (max - freq + 1); // +1 damit niemand 0 hat
+        const counts = getCounts(n);
+        const minCount = Math.min(counts.outside, counts.group, counts.classroom);
+        // Gewicht = (maxCount - count in diesem Raum) + 1
+        const weight = (counts[key] === minCount ? 5 : 1); // 5-fache Chance für den seltensten Raum
         for (let i = 0; i < weight; i++) weighted.push(n);
       });
       // Shuffle weighted array

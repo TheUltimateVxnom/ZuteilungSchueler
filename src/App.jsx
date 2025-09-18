@@ -150,10 +150,18 @@ export default function App() {
               <button onClick={assign} className="btn btn-primary">Zuweisen</button>
               <button onClick={resetHistory} className="btn btn-danger">Verlauf zurücksetzen</button>
               <button onClick={exportJSON} className="btn btn-outline">Export</button>
-              <label className="btn btn-outline btn-import cursor-pointer">
+              <button
+                className="btn btn-outline btn-import"
+                onClick={() => document.getElementById('import-file').click()}
+              >
                 Import
-                <input type="file" style={{display:"none"}} onChange={e=>importJSON(e.target.files[0])}/>
-              </label>
+              </button>
+              <input
+                id="import-file"
+                type="file"
+                style={{ display: "none" }}
+                onChange={e => importJSON(e.target.files[0])}
+              />
             </div>
           </section>
 

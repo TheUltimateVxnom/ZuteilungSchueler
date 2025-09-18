@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
 
 export default function App() {
@@ -120,11 +120,52 @@ export default function App() {
     reader.readAsText(file); 
   };
 
+  function MenuDropdown({ theme, toggleTheme }) {
+    const [open, setOpen] = useState(false);
+    const ref = useRef();
+
+    // Schließt das Menü, wenn außerhalb geklickt wird
+    useEffect(() => {
+      function handleClick(e) {
+        if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      }
+      document.addEventListener("mousedown", handleClick);
+      return () => document.removeEventListener("mousedown", handleClick);
+    }, []);
+
+    return (
+      <div className="menu-dropdown-container" ref={ref}>
+        <button
+          className="menu-btn"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Menü öffnen"
+        >
+          ☰
+        </button>
+        {open && (
+          <div className="menu-dropdown">
+            <button className="menu-item" onClick={toggleTheme}>
+              {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
+            </button>
+            <a
+              className="menu-item"
+              href="https://www.google.de"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Externe Seite
+            </a>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <>
       <footer className="footer">
         <a
-          href="https://github.com/TheUltimateVxnom/ZuteilungSchueler/tree/main?tab=BSD-3-Clause-1-ov-file"
+          href=""
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}

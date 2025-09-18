@@ -24,7 +24,6 @@ function MenuDropdown({ theme, toggleTheme }) {
       </button>
       {open && (
         <div className="menu-dropdown">
-          {/* ✅ Theme-Switch NUR im Dropdown */}
           <button className="menu-item" onClick={toggleTheme}>
             {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
           </button>
@@ -67,7 +66,7 @@ export default function Maintenance() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, v1.2
+          © Lukas Diezinger, Beta v2.0
         </a>
       </footer>
       <div
@@ -82,7 +81,6 @@ export default function Maintenance() {
           paddingTop: 0,
         }}
       >
-        {/* ✅ Theme-Switch nur über das Dropdown */}
         <MenuDropdown theme={theme} toggleTheme={toggleTheme} />
         <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
           <h1>🚧 Wartungsmodus aktiv</h1>

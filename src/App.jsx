@@ -2,7 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
 
 export default function App() {
+  // Wartungsmodus prüfen
   const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
+
+  // Wenn Wartungsmodus aktiv ist, zeige nur die Wartungsseite
   if (maintenance) return <Maintenance />;
 
   const [studentsText, setStudentsText] = useState("");
@@ -15,11 +18,13 @@ export default function App() {
   const [history, setHistory] = useState({});
   const STORAGE_KEY = "schueler_zuteilung_state_v1";
 
+  // Update students array from textarea
   useEffect(() => {
     const arr = studentsText.split(/\r?\n/).map(s => s.trim()).filter(s => s);
     setStudents(Array.from(new Set(arr)));
   }, [studentsText]);
 
+  // Load saved history if exists
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -35,23 +40,30 @@ export default function App() {
     catch {}
   };
 
+  // Random assignment
   const assign = () => {
     if (!students.length) return;
 
+    // Für jeden Schüler: Wie oft war er in jedem Raum?
     const getCounts = name => history[name] || { outside: 0, group: 0, classroom: 0 };
 
+    // Gewicht: Je weniger in einem Raum, desto höher die Chance
     function weightedPick(list, count, key) {
+      // Finde für jeden Schüler die minimale Anzahl in allen Räumen
       const weighted = [];
       list.forEach(n => {
         const counts = getCounts(n);
         const minCount = Math.min(counts.outside, counts.group, counts.classroom);
-        const weight = (counts[key] === minCount ? 5 : 1);
+        // Gewicht = (maxCount - count in diesem Raum) + 1
+        const weight = (counts[key] === minCount ? 5 : 1); // 5-fache Chance für den seltensten Raum
         for (let i = 0; i < weight; i++) weighted.push(n);
       });
+      // Shuffle weighted array
       for (let i = weighted.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [weighted[i], weighted[j]] = [weighted[j], weighted[i]];
       }
+      // Ziehe eindeutige Namen
       const result = [];
       for (let w of weighted) {
         if (!result.includes(w)) result.push(w);
@@ -71,6 +83,7 @@ export default function App() {
     setGroupRoom(groupSel);
     setClassroom(rest);
 
+    // Update history
     const newHistory = {...history};
     students.forEach(n => {
       if (!newHistory[n]) newHistory[n] = { outside: 0, group: 0, classroom: 0 };
@@ -111,6 +124,7 @@ export default function App() {
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
+    // Schließt das Menü, wenn außerhalb geklickt wird
     useEffect(() => {
       function handleClick(e) {
         if (ref.current && !ref.current.contains(e.target)) setOpen(false);
@@ -130,7 +144,6 @@ export default function App() {
         </button>
         {open && (
           <div className="menu-dropdown">
-            {/* ✅ Theme-Switch NUR im Dropdown */}
             <button className="menu-item" onClick={toggleTheme}>
               {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
             </button>
@@ -157,7 +170,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, v1.2
+          © Lukas Diezinger, Beta v2.0
         </a>
       </footer>
       <div className="app-container">
@@ -166,8 +179,6 @@ export default function App() {
             <h1>Schüler-Zuteilung</h1>
             <p>Konfiguriere Schüler, Kapazitäten und weise zufällig zu</p>
           </header>
-
-          {/* ✅ Theme-Switch nur über Dropdown nutzbar */}
 
           <main className="app-main">
             <section className="card">

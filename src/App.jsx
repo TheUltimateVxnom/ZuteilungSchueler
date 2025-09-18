@@ -43,22 +43,48 @@ export default function App() {
   // Random assignment
   const assign = () => {
     if (!students.length) return;
-    const shuffled = [...students].sort(() => Math.random() - 0.5);
 
-    const takeOutside = Math.min(capacityOutside, shuffled.length);
-    const outsideSel = shuffled.slice(0, takeOutside);
-    const remaining = shuffled.slice(takeOutside);
-    const takeGroup = Math.min(capacityGroup, remaining.length);
-    const groupSel = remaining.slice(0, takeGroup);
-    const rest = remaining.slice(takeGroup);
+    // Hilfsfunktion: Ziehe n Namen nach Gewicht aus einer Liste
+    function weightedPick(list, count, key) {
+      // Ermittle max-Wert für das Feld
+      const max = Math.max(...list.map(n => history[n]?.[key] ?? 0));
+      // Erzeuge Gewicht: Je weniger, desto höher
+      const weighted = [];
+      list.forEach(n => {
+        const freq = history[n]?.[key] ?? 0;
+        const weight = (max - freq + 1); // +1 damit niemand 0 hat
+        for (let i = 0; i < weight; i++) weighted.push(n);
+      });
+      // Shuffle weighted array
+      for (let i = weighted.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [weighted[i], weighted[j]] = [weighted[j], weighted[i]];
+      }
+      // Ziehe eindeutige Namen
+      const result = [];
+      for (let w of weighted) {
+        if (!result.includes(w)) result.push(w);
+        if (result.length === count) break;
+      }
+      return result;
+    }
+
+    let pool = [...students];
+    const outsideSel = weightedPick(pool, Math.min(capacityOutside, pool.length), "outside");
+    pool = pool.filter(n => !outsideSel.includes(n));
+    const groupSel = weightedPick(pool, Math.min(capacityGroup, pool.length), "group");
+    pool = pool.filter(n => !groupSel.includes(n));
+    const rest = pool;
 
     setOutside(outsideSel);
     setGroupRoom(groupSel);
     setClassroom(rest);
 
-    // Reset history for new assignment (no old numbers)
-    const newHistory = {};
-    students.forEach(n => newHistory[n] = { outside:0, group:0, classroom:0 });
+    // Update history
+    const newHistory = {...history};
+    students.forEach(n => {
+      if (!newHistory[n]) newHistory[n] = { outside: 0, group: 0, classroom: 0 };
+    });
     outsideSel.forEach(n => newHistory[n].outside++);
     groupSel.forEach(n => newHistory[n].group++);
     rest.forEach(n => newHistory[n].classroom++);

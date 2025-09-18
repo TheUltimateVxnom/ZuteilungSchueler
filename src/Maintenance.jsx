@@ -38,8 +38,15 @@ export default function Maintenance() {
         <h1>🚧 Wartungsmodus aktiv</h1>
         <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
       </section>
-      <footer className="footer" style={{ marginTop: "50px" }}>
-        © Lukas Diezinger
+      <footer className="footer">
+        <a
+          href="https://github.com/TheUltimateVxnom/ZuteilungSchueler/tree/main?tab=BSD-3-Clause-1-ov-file"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
+        >
+          © Lukas Diezinger, v1.01
+        </a>
       </footer>
     </div>
   );

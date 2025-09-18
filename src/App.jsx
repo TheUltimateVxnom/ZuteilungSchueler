@@ -205,7 +205,14 @@ export default function App() {
         </main>
 
         <footer className="footer">
-          © Lukas Diezinger
+          <a
+            href="https://github.com/TheUltimateVxnom/ZuteilungSchueler/tree/main?tab=BSD-3-Clause-1-ov-file"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
+          >
+            © Lukas Diezinger, v1.01
+          </a>
         </footer>
       </div>
     </div>

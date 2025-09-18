@@ -140,17 +140,24 @@ body {
 
 /* Import Button */
 .btn-import {
-  padding: 10px 16px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s all;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  background: none;
+  color: var(--text-color);
   display: inline-flex;
   align-items: center;
-  font-weight: bold; /* Schrift wie die anderen Buttons */
-  font-family: inherit;
-  font-size: inherit;
+  justify-content: center;
   vertical-align: middle;
 }
 .btn-import input[type="file"] {
-  font-family: inherit;
-  font-size: inherit;
+  display: none;
 }
 
 /* History Table */

@@ -74,7 +74,7 @@ body {
 .app-inner {
   display: flex;
   flex-direction: column;
-  gap: 32px; /* Erhöhe den Abstand zwischen den Cards */
+  gap: 50px; /* Erhöhe den Abstand zwischen den Cards */
 }
 
 /* App Cards */

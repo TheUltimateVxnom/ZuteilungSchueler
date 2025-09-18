@@ -139,7 +139,12 @@ body {
 .btn-outline:hover { background-color: rgba(0,0,0,0.05); }
 
 /* Import Button */
-.btn-import { padding: 10px 16px; display: inline-flex; align-items: center; }
+.btn-import {
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold; /* Schrift wie die anderen Buttons */
+}
 
 /* History Table */
 .history-table { width:100%; border-collapse:collapse; margin-top:15px; }

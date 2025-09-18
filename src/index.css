@@ -150,10 +150,10 @@ body {
 
 /* Card Hover: Light Mode = Schatten, Dark Mode = lila Glow, Maintenance = orange/yellow Glow */
 [data-theme="light"] .card:hover {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18); /* größerer Schatten */
 }
 [data-theme="dark"] .card:hover {
-  box-shadow: 0 0 24px 4px #4f46e5;
+  box-shadow: 0 0 12px 2px #4f46e5; /* kleinerer lila Glow */
 }
 /* Maintenance Card Glow im Dark Mode */
 [data-theme="dark"] .card.maintenance-glow:hover {
@@ -162,8 +162,8 @@ body {
 
 /* Button Hover: Light Mode = Schatten, Dark Mode = weißer Glow */
 [data-theme="light"] .btn:hover {
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.22); /* größerer Schatten */
 }
 [data-theme="dark"] .btn:hover {
-  box-shadow: 0 0 16px 2px #fff;
+  box-shadow: 0 0 8px 1px #fff; /* kleinerer weißer Glow */
 }

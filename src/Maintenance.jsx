@@ -17,22 +17,30 @@ export default function Maintenance() {
   };
 
   return (
-    <div className="app-container" style={{ textAlign: "center", paddingTop: "50px" }}>
+    <div
+      className="app-container"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        paddingTop: 0,
+      }}
+    >
       <div className="theme-toggle-container">
         <button className="theme-toggle-btn" onClick={toggleTheme}>
           {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
         </button>
       </div>
-
-      <div className="app-inner">
-        <section className="card" style={{ maxWidth: 500, margin: "40px auto" }}>
-          <h1>🚧 Wartungsmodus aktiv</h1>
-          <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
-        </section>
-        <footer className="footer" style={{ marginTop: "50px" }}>
-          © Lukas Diezinger
-        </footer>
-      </div>
+      <section className="card" style={{ maxWidth: 500, margin: "0 auto" }}>
+        <h1>🚧 Wartungsmodus aktiv</h1>
+        <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
+      </section>
+      <footer className="footer" style={{ marginTop: "50px" }}>
+        © Lukas Diezinger
+      </footer>
     </div>
   );
 }

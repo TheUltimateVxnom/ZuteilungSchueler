@@ -147,3 +147,10 @@ body {
 
 /* Footer */
 .footer { text-align:center; margin-top:30px; font-size:14px; color:var(--text-color); }
+
+[data-theme="dark"] .card:hover {
+  box-shadow: 0 0 24px 4px var(--primary);
+}
+[data-theme="light"] .card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}

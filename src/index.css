@@ -48,7 +48,6 @@ body {
   top: 15px;
   right: 15px;
   z-index: 1000;
-  display: none;
 }
 .theme-toggle-btn {
   background-color: var(--primary);
@@ -60,6 +59,7 @@ body {
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   transition: background-color 0.3s, transform 0.2s;
+  display: none;
 }
 .theme-toggle-btn:hover {
   background-color: var(--primary-hover);

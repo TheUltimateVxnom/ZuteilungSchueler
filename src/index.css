@@ -188,10 +188,10 @@ body {
 }
 
 [data-theme="light"] .card.maintenance-glow {
-  animation: blink-glow-light 1s infinite;
+  animation: blink-glow-light 2s infinite;
 }
 [data-theme="dark"] .card.maintenance-glow {
-  animation: blink-glow-dark 1s infinite;
+  animation: blink-glow-dark 2s infinite;
 }
 
 /* Button Hover: Light Mode = Schatten, Dark Mode = weißer Glow */

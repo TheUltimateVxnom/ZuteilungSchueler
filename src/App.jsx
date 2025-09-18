@@ -149,7 +149,7 @@ export default function App() {
             </button>
             <a
               className="menu-item"
-              href="https://zuteilungschuelertimeline.onrender.com"
+              href="https://www.google.de"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -170,7 +170,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v2.0
+          © Lukas Diezinger, v1.2
         </a>
       </footer>
       <div className="app-container">

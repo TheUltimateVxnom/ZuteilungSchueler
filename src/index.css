@@ -170,6 +170,19 @@ body {
   box-shadow: 0 0 32px 6px #ffd700, 0 0 16px 2px #ff9800;
 }
 
+@keyframes blink-glow {
+  0%, 100% {
+    box-shadow: 0 0 16px 2px #ffd700, 0 0 8px 1px #ff9800;
+  }
+  50% {
+    box-shadow: 0 0 32px 8px #ffd700, 0 0 24px 4px #ff9800;
+  }
+}
+
+[data-theme="dark"] .card.maintenance-glow {
+  animation: blink-glow 1s infinite;
+}
+
 /* Button Hover: Light Mode = Schatten, Dark Mode = weißer Glow */
 [data-theme="light"] .btn:hover {
   box-shadow: 0 12px 32px rgba(0,0,0,0.22); /* größerer Schatten */

@@ -172,18 +172,18 @@ body {
 
 @keyframes blink-glow-light {
   0%, 100% {
-    box-shadow: 0 0 24px 4px #ffd700, 0 0 8px 1px #ff9800;
+    box-shadow: 0 0 284px 6px #ffd700, 0 0 8px 1px #ff9800;
   }
   50% {
-    box-shadow: 0 0 36px 10px #ffd700, 0 0 24px 4px #ff9800;
+    box-shadow: 0 0 40px 12px #ffd700, 0 0 24px 4px #ff9800;
   }
 }
 @keyframes blink-glow-dark {
   0%, 100% {
-    box-shadow: 0 0 24px 4px #ffd700, 0 0 8px 1px #ff9800;
+    box-shadow: 0 0 28px 6px #ffd700, 0 0 8px 1px #ff9800;
   }
   50% {
-    box-shadow: 0 0 36px 10px #ffd700, 0 0 24px 4px #ff9800;
+    box-shadow: 0 0 40px 12px #ffd700, 0 0 24px 4px #ff9800;
   }
 }
 

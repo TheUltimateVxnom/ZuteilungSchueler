@@ -59,7 +59,7 @@ export default function Maintenance() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v2.0
+          © Lukas Diezinger, Release v2.0.1
         </a>
       </footer>
       <div
@@ -77,7 +77,8 @@ export default function Maintenance() {
         <MenuDropdown theme={theme} toggleTheme={toggleTheme} />
         <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
           <h1>🚧 Wartungsmodus aktiv</h1>
-          <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen. Kommt da etwa der v2.0 Release</p>
+          <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen. 
+            Kommt da etwa der v2.0 Release?</p>
         </section>
       </div>
     </>

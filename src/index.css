@@ -274,18 +274,29 @@ body {
 
 .timeline-list {
   position: relative;
-  margin: 32px 0 0 48px;
-  padding-left: 24px;
-  border-left: 4px solid var(--primary);
+  margin: 32px 0 0 0;
+  padding-left: 40px;
   display: flex;
   flex-direction: column;
   gap: 48px;
 }
 
+.timeline-list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 32px;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  z-index: 0;
+  border-radius: 2px;
+}
+
 .timeline-item {
   display: flex;
   align-items: flex-start;
-  gap: 28px;
+  gap: 24px;
   position: relative;
   min-height: 48px;
 }
@@ -295,25 +306,12 @@ body {
   height: 24px;
   background: var(--primary);
   border-radius: 50%;
-  margin-left: -36px;
-  margin-top: 0;
-  box-shadow: 0 0 12px 3px var(--primary);
-  flex-shrink: 0;
-  z-index: 2;
-  border: 3px solid var(--card-bg);
   position: relative;
-}
-
-.timeline-item:not(:last-child) .timeline-dot::after {
-  content: "";
-  position: absolute;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: calc(100% + 24px);
-  background: var(--primary);
+  left: 20px;
   z-index: 1;
+  box-shadow: 0 0 12px 3px var(--primary);
+  border: 3px solid var(--card-bg);
+  flex-shrink: 0;
 }
 
 .timeline-date {

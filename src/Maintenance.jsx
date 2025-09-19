@@ -63,7 +63,7 @@ export default function Maintenance() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v2.0.1
+          © Lukas Diezinger, Release v2.2
         </a>
       </footer>
       <div
@@ -92,19 +92,25 @@ export default function Maintenance() {
 
 function SnakeOverlay({ onClose }) {
   const canvasRef = useRef(null);
-  const [running, setRunning] = useState(true);
+  const [running, setRunning] = useState(false);
+  const [started, setStarted] = useState(false);
   const [score, setScore] = useState(0);
 
-  // Spielfeld-Parameter
-  const size = 15;
-  const tile = 18;
-  const [snake, setSnake] = useState([{ x: 7, y: 7 }]);
+  // Größeres Spielfeld
+  const size = 20;
+  const tile = 22;
+  const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
   const [dir, setDir] = useState({ x: 1, y: 0 });
-  const [food, setFood] = useState({ x: 10, y: 10 });
+  const [food, setFood] = useState({ x: 15, y: 15 });
 
   // Steuerung
   useEffect(() => {
     function handleKey(e) {
+      if (!started) return;
+      if (!running && e.key === "Enter") {
+        restart();
+        return;
+      }
       if (!running) return;
       if (e.key === "ArrowUp" && dir.y !== 1) setDir({ x: 0, y: -1 });
       if (e.key === "ArrowDown" && dir.y !== -1) setDir({ x: 0, y: 1 });
@@ -114,9 +120,9 @@ function SnakeOverlay({ onClose }) {
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [dir, running, onClose]);
+  }, [dir, running, started, onClose]);
 
-  // Snake-Loop
+  // Snake-Loop (langsamer)
   useEffect(() => {
     if (!running) return;
     const interval = setInterval(() => {
@@ -143,7 +149,7 @@ function SnakeOverlay({ onClose }) {
         }
         return newSnake;
       });
-    }, 90);
+    }, 140); // langsamer!
     return () => clearInterval(interval);
   }, [dir, food, running]);
 
@@ -162,25 +168,73 @@ function SnakeOverlay({ onClose }) {
     ctx.font = "bold 18px Segoe UI";
     ctx.fillStyle = "#fff";
     ctx.fillText("Score: " + score, 8, 22);
-    if (!running) {
-      ctx.font = "bold 28px Segoe UI";
+    if (!running && started) {
+      // Game Over Stil
+      ctx.font = "bold 32px Segoe UI";
       ctx.fillStyle = "#dc2626";
-      ctx.fillText("Game Over", 30, size * tile / 2);
+      ctx.textAlign = "center";
+      ctx.fillText("Game Over", (size * tile) / 2, (size * tile) / 2 - 10);
+      ctx.font = "bold 18px Segoe UI";
+      ctx.fillStyle = "#fff";
+      ctx.fillText("Drücke Enter oder Restart", (size * tile) / 2, (size * tile) / 2 + 22);
+      ctx.textAlign = "left";
     }
-  }, [snake, food, running, score]);
+    if (!started) {
+      ctx.font = "bold 28px Segoe UI";
+      ctx.fillStyle = "#4f46e5";
+      ctx.textAlign = "center";
+      ctx.fillText("Snake", (size * tile) / 2, (size * tile) / 2 - 10);
+      ctx.font = "bold 18px Segoe UI";
+      ctx.fillStyle = "#fff";
+      ctx.fillText("Starte mit Play", (size * tile) / 2, (size * tile) / 2 + 22);
+      ctx.textAlign = "left";
+    }
+  }, [snake, food, running, score, started, size, tile]);
+
+  function startGame() {
+    setSnake([{ x: 10, y: 10 }]);
+    setDir({ x: 1, y: 0 });
+    setFood({ x: 15, y: 15 });
+    setScore(0);
+    setStarted(true);
+    setRunning(true);
+  }
+
+  function restart() {
+    startGame();
+  }
 
   return (
     <div className="snake-overlay">
-      <div className="snake-close" onClick={onClose}>×</div>
-      <canvas
-        ref={canvasRef}
-        width={size * tile}
-        height={size * tile}
-        tabIndex={0}
-        style={{ outline: "none", background: "#222", borderRadius: 16 }}
-      />
-      <div style={{ color: "#fff", marginTop: 8, fontSize: 14 }}>
-        Mit den Pfeiltasten steuern. ESC oder × zum Schließen.
+      <div className="snake-close" style={{ top: 12, right: 18 }} onClick={onClose}>×</div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <canvas
+          ref={canvasRef}
+          width={size * tile}
+          height={size * tile}
+          tabIndex={0}
+          style={{ outline: "none", background: "#222", borderRadius: 16, marginBottom: 12 }}
+        />
+        {!started ? (
+          <button
+            className="btn btn-primary"
+            style={{ marginTop: 8, fontSize: 18, padding: "8px 28px" }}
+            onClick={startGame}
+          >
+            ▶ Play
+          </button>
+        ) : !running ? (
+          <button
+            className="btn btn-primary"
+            style={{ marginTop: 8, fontSize: 18, padding: "8px 28px" }}
+            onClick={restart}
+          >
+            ↻ Restart
+          </button>
+        ) : null}
+        <div style={{ color: "#fff", marginTop: 8, fontSize: 14 }}>
+          Mit den Pfeiltasten steuern. X klicken zum Schließen.
+        </div>
       </div>
     </div>
   );

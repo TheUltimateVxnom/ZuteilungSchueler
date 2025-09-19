@@ -188,7 +188,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v2.0.1
+          © Lukas Diezinger, Release v2.2
         </a>
       </footer>
       <MenuDropdown
@@ -297,12 +297,25 @@ function Timeline() {
     <section className="card timeline-card" style={{ maxWidth: 600, margin: "40px auto" }}>
       <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>
       <div className="timeline-list">
-        <div className="timeline-item">
+      <div className="timeline-item">
+        <div
+          className="timeline-dot"
+          style={{
+            background: "#16a34a", // lila
+            boxShadow: "0 0 16px 4px #16a34a"
+          }}
+        />
+        <div>
+          <div className="timeline-date">Release v2.0</div>
+          <div className="timeline-content">Snake-Game im Wartungsmodus, Dunkle Pfeile und Scrollbar</div>
+        </div>
+      </div>
+      <div className="timeline-item">
           <div
             className="timeline-dot"
             style={{
-              background: "#16a34a", // lila
-              boxShadow: "0 0 16px 4px #16a34a"
+              background: "#4f46e5", // lila
+              boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />
           <div>

@@ -28,15 +28,15 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
             {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
           </button>
           <div className="menu-divider" />
-          {view === "app" ? (
-            <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
-              Externe Seite
-            </button>
-          ) : (
-            <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>
-              Zurück zur App
-            </button>
-          )}
+          <a
+            className="menu-item"
+            href="https://forms.gle/eu2VJdz8rnmHQQCg8"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+             Bug melden
+          </a>
+          {/* ...weitere Menüeinträge... */}
         </div>
       )}
     </div>
@@ -292,26 +292,26 @@ function Timeline() {
           <div
             className="timeline-dot"
             style={{
-              background: "#4f46e5", // lila
-              boxShadow: "0 0 16px 4px #4f46e5"
+              background: "#16a34a", // lila
+              boxShadow: "0 0 16px 4px #16a34a"
             }}
           />
           <div>
             <div className="timeline-date">Release v2.0</div>
-            <div className="timeline-content">🤫</div>
+            <div className="timeline-content">Timeline, Anpassung für jedes Gerät, Bug-Meldefunktion</div>
           </div>
         </div>
         <div className="timeline-item">
           <div
             className="timeline-dot"
             style={{
-              background: "#16a34a", // grün
-              boxShadow: "0 0 16px 4px #16a34a"
+              background: "#4f46e5", // grün
+              boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />
           <div>
             <div className="timeline-date">Beta v2.0</div>
-            <div className="timeline-content">Timeline/Changelog-Funktion hinzugefügt</div>
+            <div className="timeline-content">Tests für den Release v2.0</div>
           </div>
         </div>
         <div className="timeline-item">

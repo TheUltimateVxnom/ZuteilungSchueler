@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
-import Timeline from "./Timeline.jsx"; // Importiere die Timeline-Komponente
 
 function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
   const [open, setOpen] = useState(false);

@@ -77,7 +77,7 @@ export default function Maintenance() {
         <MenuDropdown theme={theme} toggleTheme={toggleTheme} />
         <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
           <h1>🚧 Wartungsmodus aktiv</h1>
-          <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
+          <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen. Kommt da etwa der v2.0 Release</p>
         </section>
       </div>
     </>

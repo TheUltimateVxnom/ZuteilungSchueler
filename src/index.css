@@ -333,3 +333,27 @@ body {
   text-decoration: none;
   display: block;
 }
+
+@media (max-width: 600px) {
+  .app-container {
+    padding: 4px;
+  }
+  .card, .timeline-card {
+    padding: 10px 2vw;
+    min-width: 0;
+    max-width: 100vw;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  .card-input, input, textarea {
+    padding: 8px;
+    font-size: 1rem;
+  }
+  .history-table th, .history-table td {
+    padding: 4px 6px;
+    font-size: 0.95rem;
+  }
+  .app-inner {
+    gap: 20px;
+  }
+}

@@ -43,12 +43,6 @@ function MenuDropdown({ theme, toggleTheme }) {
 }
 
 export default function App() {
-  // Wartungsmodus prüfen
-  const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
-
-  // Wenn Wartungsmodus aktiv ist, zeige nur die Wartungsseite
-  if (maintenance) return <Maintenance />;
-
   const [studentsText, setStudentsText] = useState("");
   const [students, setStudents] = useState([]);
   const [capacityOutside, setCapacityOutside] = useState(3);

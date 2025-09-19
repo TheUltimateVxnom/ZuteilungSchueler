@@ -77,17 +77,17 @@ body {
 .app-inner {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 28px;
 }
 
 /* App Cards */
 .card {
   background-color: var(--card-bg);
-  padding: 5vw 4vw;
-  border-radius: 20px;
+  padding: 32px 32px;
+  border-radius: 18px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: 0.3s;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   width: 100%;
   max-width: 700px;
   box-sizing: border-box;
@@ -125,14 +125,14 @@ body {
   padding-left: 0;
   display: flex;
   flex-direction: column;
-  gap: 7vw;
+  gap: 36px;
 }
 
 /* Timeline Item */
 .timeline-item {
   display: flex;
   align-items: flex-start;
-  gap: 7vw;
+  gap: 36px;
   position: relative;
   min-height: 48px;
 }
@@ -361,9 +361,11 @@ body {
   .card, .timeline-card {
     padding: 10px 2vw;
     min-width: 0;
-    max-width: 100vw;
+    max-width: 96vw;
     border-radius: 10px;
     margin-bottom: 16px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .card-input, input, textarea {
     padding: 8px;
@@ -389,6 +391,10 @@ body {
     font-size: 12px;
     left: 8px;
     top: 6px;
+    z-index: 1001;
+  }
+  .app-container {
+    padding-top: 32px; /* Abstand nach oben für Copyright */
   }
   .menu-dropdown-container {
     top: 6px;

@@ -37,13 +37,14 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
               Zurück zur App
             </button>
           )}
+          <div className="menu-divider" />
           <a
             className="menu-item"
             href="https://forms.gle/eu2VJdz8rnmHQQCg8"
             target="_blank"
             rel="noopener noreferrer"
           >
-            🐞 Bug melden
+             Bug melden
           </a>
         </div>
       )}

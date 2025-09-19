@@ -306,7 +306,7 @@ function Timeline() {
           }}
         />
         <div>
-          <div className="timeline-date">Release v2.0</div>
+          <div className="timeline-date">Release v2.2</div>
           <div className="timeline-content">Snake-Game im Wartungsmodus, Dunkle Pfeile und Scrollbar</div>
         </div>
       </div>

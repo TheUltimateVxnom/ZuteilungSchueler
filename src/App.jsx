@@ -288,8 +288,9 @@ function Timeline() {
     <section className="card timeline-card" style={{ maxWidth: 600, margin: "40px auto" }}>
       <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>
       <div className="timeline-list">
-         <div>
-            <div className="timeline-date">Release v2.0</div>
+         <div className="timeline-item">
+            <div 
+                 className="timeline-date">Release v2.0</div>
             <div className="timeline-content">🤫</div>
           </div>
         </div>

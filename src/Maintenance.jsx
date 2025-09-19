@@ -29,7 +29,7 @@ function MenuDropdown({ theme, toggleTheme }) {
           </button>
           <a
             className="menu-item"
-            href="https://zuteilungschuelertimeline.onrender.com"
+            href="https://www.google.de"
             target="_blank"
             rel="noopener noreferrer"
           >

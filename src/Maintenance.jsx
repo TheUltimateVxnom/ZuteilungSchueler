@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function MenuDropdown({ theme, toggleTheme }) {
+function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -27,14 +27,16 @@ function MenuDropdown({ theme, toggleTheme }) {
           <button className="menu-item" onClick={toggleTheme}>
             {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
           </button>
-          <a
-            className="menu-item"
-            href="https://www.google.de"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Externe Seite
-          </a>
+          <div className="menu-divider" />
+          {view === "app" ? (
+            <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
+              Externe Seite
+            </button>
+          ) : (
+            <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>
+              Zurück zur App
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -66,7 +68,7 @@ export default function Maintenance() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v2.0
+          © Lukas Diezinger, Beta v2.0.25
         </a>
       </footer>
       <div

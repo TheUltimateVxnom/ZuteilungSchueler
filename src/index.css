@@ -38,8 +38,7 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background-color: var(--bg);
   color: var(--text-color);
-  display: flex;
-  justify-content: center;
+  min-height: 100vh;
 }
 
 /* Dark/Light Button */
@@ -72,23 +71,29 @@ body {
   max-width: 1200px;
   width: 100%;
   padding: 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 .app-inner {
   display: flex;
   flex-direction: column;
-  gap: 50px; /* Erhöhe den Abstand zwischen den Cards */
+  gap: 50px;
 }
 
 /* App Cards */
 .card {
   background-color: var(--card-bg);
-  padding: 25px;
+  padding: 5vw 4vw;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: 0.3s;
-  margin-bottom: 32px; /* Abstand unter jeder Card */
+  margin-bottom: 32px;
+  width: 100%;
+  max-width: 700px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
 }
-.card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
 
 /* Inputs & Textareas */
 .card-input, input, textarea {
@@ -104,14 +109,76 @@ body {
   margin-bottom: 8px;
 }
 
-/* Grid Layout */
-.grid-section { 
-  display: grid; 
-  grid-template-columns: 1fr; 
-  gap: 20px; 
+/* Timeline Card */
+.timeline-card {
+  min-height: 300px;
+  padding: 6vw 4vw 6vw 7vw;
+  height: auto;
+  max-width: 98vw;
+  box-sizing: border-box;
+  overflow: visible;
 }
-@media(min-width:768px){ 
-  .grid-section { grid-template-columns: repeat(3, 1fr); gap: 20px; } 
+
+/* Timeline List */
+.timeline-list {
+  margin: 6vw 0 0 0;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7vw;
+}
+
+/* Timeline Item */
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7vw;
+  position: relative;
+  min-height: 48px;
+}
+
+/* Timeline Dot */
+.timeline-dot {
+  width: 7vw;
+  max-width: 32px;
+  min-width: 18px;
+  height: 7vw;
+  max-height: 32px;
+  min-height: 18px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 16px 4px var(--primary);
+  border: none;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* Timeline Text */
+.timeline-date {
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  word-break: break-word;
+}
+.timeline-content {
+  color: var(--text-color);
+  font-size: 1rem;
+  padding-bottom: 10px;
+  word-break: break-word;
+}
+
+/* Grid Layout */
+.grid-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .grid-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
 }
 
 /* Buttons Modern */
@@ -265,52 +332,4 @@ body {
 .menu-dropdown a.menu-item {
   text-decoration: none;
   display: block;
-}
-
-.timeline-card {
-  min-height: 600px;
-  padding: 64px 64px 64px 120px;
-  height: auto;
-  max-height: none;
-  overflow: visible;
-}
-
-.timeline-list {
-  margin: 40px 0 0 0;
-  padding-left: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 56px;
-}
-
-.timeline-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 64px;
-  position: relative;
-  min-height: 56px;
-}
-
-.timeline-dot {
-  width: 32px;
-  height: 32px;
-  background: var(--primary);
-  border-radius: 50%;
-  box-shadow: 0 0 16px 4px var(--primary);
-  border: none;
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-
-.timeline-date {
-  font-weight: bold;
-  color: var(--primary);
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-}
-
-.timeline-content {
-  color: var(--text-color);
-  font-size: 1.1rem;
-  padding-bottom: 10px;
 }

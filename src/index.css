@@ -268,11 +268,11 @@ body {
 }
 
 .timeline-card {
-  min-height: 700px;      /* Card ist deutlich größer */
-  padding: 64px 64px 64px 120px; /* Mehr Platz innen */
-  height: auto;           /* Kein fixes Height/Scrollen */
-  max-height: none;       /* Kein Max-Height */
-  overflow: visible;      /* Kein Scrollen */
+  min-height: 600px;
+  padding: 64px 64px 64px 120px;
+  height: auto;
+  max-height: none;
+  overflow: visible;
 }
 
 .timeline-list {
@@ -288,7 +288,7 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  left: 44px; /* exakt mittig zu .timeline-dot */
+  left: 48px; /* exakt mittig zu .timeline-dot */
   width: 4px;
   height: 100%;
   background: var(--primary);
@@ -299,7 +299,7 @@ body {
 .timeline-item {
   display: flex;
   align-items: flex-start;
-  gap: 64px; /* Mehr Abstand zwischen Punkt und Text */
+  gap: 64px;
   position: relative;
   min-height: 56px;
 }
@@ -310,11 +310,24 @@ body {
   background: var(--primary);
   border-radius: 50%;
   position: relative;
-  left: 28px; /* exakt mittig zur Linie */
+  left: 32px; /* exakt mittig zur Linie */
   z-index: 1;
   box-shadow: 0 0 16px 4px var(--primary);
   border: 4px solid var(--card-bg);
   flex-shrink: 0;
+}
+.timeline-dot::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--card-bg);
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+  /* Das sorgt dafür, dass der Glow die Linie nicht überdeckt */
 }
 
 .timeline-date {

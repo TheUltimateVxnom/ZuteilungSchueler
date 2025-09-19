@@ -28,15 +28,6 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
             {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
           </button>
           <div className="menu-divider" />
-          {view === "app" ? (
-            <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
-              Externe Seite
-            </button>
-          ) : (
-            <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>
-              Zurück zur App
-            </button>
-          )}
         </div>
       )}
     </div>

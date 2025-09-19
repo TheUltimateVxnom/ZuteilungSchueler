@@ -179,7 +179,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v2.0.25
+          © Lukas Diezinger, Beta v2.0.40
         </a>
       </footer>
       <MenuDropdown
@@ -289,12 +289,8 @@ function Timeline() {
       className="card timeline-card"
       style={{
         maxWidth: 600,
-        margin: "40px auto",
-        minHeight: 300,
-        height: 400,
-        overflow: "auto",
-        display: "flex",
-        flexDirection: "column",
+        margin: "40px auto"
+        // KEIN minHeight, height, overflow, display, flexDirection mehr!
       }}
     >
       <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>

@@ -28,15 +28,23 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
             {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
           </button>
           <div className="menu-divider" />
+          {view === "app" ? (
+            <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
+              Externe Seite
+            </button>
+          ) : (
+            <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>
+              Zurück zur App
+            </button>
+          )}
           <a
             className="menu-item"
             href="https://forms.gle/eu2VJdz8rnmHQQCg8"
             target="_blank"
             rel="noopener noreferrer"
           >
-             Bug melden
+            🐞 Bug melden
           </a>
-          {/* ...weitere Menüeinträge... */}
         </div>
       )}
     </div>
@@ -179,7 +187,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v2.0.40
+          © Lukas Diezinger, Release v2.0
         </a>
       </footer>
       <MenuDropdown

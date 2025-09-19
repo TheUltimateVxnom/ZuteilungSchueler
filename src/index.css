@@ -268,8 +268,11 @@ body {
 }
 
 .timeline-card {
-  min-height: 500px;
-  padding: 48px 48px 48px 90px;
+  min-height: 700px;      /* Card ist deutlich größer */
+  padding: 64px 64px 64px 120px; /* Mehr Platz innen */
+  height: auto;           /* Kein fixes Height/Scrollen */
+  max-height: none;       /* Kein Max-Height */
+  overflow: visible;      /* Kein Scrollen */
 }
 
 .timeline-list {

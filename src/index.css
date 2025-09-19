@@ -296,7 +296,7 @@ body {
 .timeline-item {
   display: flex;
   align-items: flex-start;
-  gap: 24px;
+  gap: 48px; /* Mehr Abstand zwischen Punkt und Text */
   position: relative;
   min-height: 48px;
 }

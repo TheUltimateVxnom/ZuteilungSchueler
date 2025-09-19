@@ -239,6 +239,14 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  border: 1.5px solid var(--input-border); /* Umrandung */
+}
+.menu-divider {
+  height: 1px;
+  background: var(--input-border);
+  margin: 4px 0;
+  width: 90%;
+  align-self: center;
 }
 .menu-item {
   background: none;

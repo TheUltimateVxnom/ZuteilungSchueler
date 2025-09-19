@@ -1,6 +1,47 @@
 import React, { useEffect, useState, useRef } from "react";
 import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
 
+function MenuDropdown({ theme, toggleTheme }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  return (
+    <div className="menu-dropdown-container" ref={ref}>
+      <button
+        className="menu-btn"
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Menü öffnen"
+      >
+        ☰
+      </button>
+      {open && (
+        <div className="menu-dropdown">
+          <button className="menu-item" onClick={toggleTheme}>
+            {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
+          </button>
+          <div className="menu-divider" />
+          <a
+            className="menu-item"
+            href="https://www.google.de"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Externe Seite
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   // Wartungsmodus prüfen
   const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
@@ -120,46 +161,17 @@ export default function App() {
     reader.readAsText(file); 
   };
 
-  function MenuDropdown({ theme, toggleTheme }) {
-    const [open, setOpen] = useState(false);
-    const ref = useRef();
+  // Theme-Handling für das Menü
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
-    // Schließt das Menü, wenn außerhalb geklickt wird
-    useEffect(() => {
-      function handleClick(e) {
-        if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-      }
-      document.addEventListener("mousedown", handleClick);
-      return () => document.removeEventListener("mousedown", handleClick);
-    }, []);
-
-    return (
-      <div className="menu-dropdown-container" ref={ref}>
-        <button
-          className="menu-btn"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Menü öffnen"
-        >
-          ☰
-        </button>
-        {open && (
-          <div className="menu-dropdown">
-            <button className="menu-item" onClick={toggleTheme}>
-              {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
-            </button>
-            <a
-              className="menu-item"
-              href="https://www.google.de"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Externe Seite
-            </a>
-          </div>
-        )}
-      </div>
-    );
-  }
+  // Wartungsmodus prüfen
+  const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
+  if (maintenance) return <Maintenance />;
 
   return (
     <>
@@ -173,6 +185,7 @@ export default function App() {
           © Lukas Diezinger, v1.2
         </a>
       </footer>
+      <MenuDropdown theme={theme} toggleTheme={toggleTheme} />
       <div className="app-container">
         <div className="app-inner">
           <header className="app-header" style={{textAlign:"center"}}>

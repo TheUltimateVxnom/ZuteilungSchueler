@@ -335,6 +335,26 @@ body {
 }
 
 @media (max-width: 600px) {
+  h1, h2, h3 {
+    font-size: 1.1rem;
+    margin: 10px 0 6px 0;
+  }
+  .btn, .menu-btn, .menu-item {
+    font-size: 0.98rem !important;
+    padding: 8px 10px;
+    min-width: 80px;
+    border-radius: 8px;
+  }
+  .card-input, input, textarea {
+    font-size: 0.98rem;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  .menu-dropdown {
+    min-width: 120px;
+    border-radius: 10px;
+    padding: 4px 0;
+  }
   .app-container {
     padding: 4px;
   }
@@ -355,5 +375,23 @@ body {
   }
   .app-inner {
     gap: 20px;
+  }
+  .history-table, .history-table th, .history-table td {
+    font-size: 0.92rem;
+    padding: 3px 4px;
+    border-radius: 6px;
+  }
+  .grid-section {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .footer {
+    font-size: 12px;
+    left: 8px;
+    top: 6px;
+  }
+  .menu-dropdown-container {
+    top: 6px;
+    right: 6px;
   }
 }

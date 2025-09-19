@@ -285,16 +285,57 @@ export default function App() {
 
 function Timeline() {
   return (
-    <section className="card" style={{ maxWidth: 600, margin: "40px auto" }}>
-      <h2>Changelog / Timeline</h2>
-      <ul style={{ textAlign: "left", lineHeight: "1.7" }}>
-        <li><b>Release v2.0</b> 🤫</li>
-        <li><b>Beta v2.0</b> Timeline/Changelog-Funktion hinzugefügt</li>
-        <li><b>Release v1.2</b> Wartungsmodus,Hoveranimationen,Glow</li>
-        <li><b>Release v1.0:</b> Dark-Mode</li>
-        <li><b>Beta v1.0</b> Projekt gestartet</li>
-        {/* Hier kannst du weitere Einträge hinzufügen */}
-      </ul>
+    <section
+      className="card timeline-card"
+      style={{
+        maxWidth: 600,
+        margin: "40px auto",
+        minHeight: 300,
+        height: 400,
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>
+      <div className="timeline-list">
+         <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+            <div className="timeline-date">Release v2.0</div>
+            <div className="timeline-content">🤫</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+            <div className="timeline-date">Beta v2.0</div>
+            <div className="timeline-content">Timeline/Changelog-Funktion hinzugefügt</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+            <div className="timeline-date">Release v1.2</div>
+            <div className="timeline-content">Wartungsmodus, Hoveranimationen, Glow</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+            <div className="timeline-date">Release v1.0</div>
+            <div className="timeline-content">Dark-Mode</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+            <div className="timeline-date">Beta v1.0</div>
+            <div className="timeline-content">Projekt gestartet</div>
+          </div>
+        </div>
+        {/* Weitere Einträge hier hinzufügen */}
+      </div>
     </section>
   );
 }

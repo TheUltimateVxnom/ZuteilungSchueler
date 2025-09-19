@@ -111,16 +111,17 @@ body {
 
 /* Timeline Card */
 .timeline-card {
+  padding: 24px 12px 24px 36px;
+  border-radius: 16px;
   min-height: 300px;
-  padding: 6vw 4vw 6vw 7vw;
-  height: auto;
-  max-width: 98vw;
-  box-sizing: border-box;
-  overflow: visible;
+  max-width: 600px;
+  margin: 32px auto;
 }
 
 /* Timeline List */
 .timeline-list {
+  gap: 20px;
+  margin-top: 16px;
   margin: 6vw 0 0 0;
   padding-left: 0;
   display: flex;
@@ -132,7 +133,7 @@ body {
 .timeline-item {
   display: flex;
   align-items: flex-start;
-  gap: 36px;
+  gap: 28px;
   position: relative;
   min-height: 48px;
 }
@@ -340,9 +341,9 @@ body {
     margin: 10px 0 6px 0;
   }
   .btn, .menu-btn, .menu-item {
-    font-size: 0.98rem !important;
-    padding: 8px 10px;
-    min-width: 80px;
+    font-size: 0.95rem !important;
+    padding: 7px 8px !important;
+    min-width: 60px;
     border-radius: 8px;
   }
   .card-input, input, textarea {

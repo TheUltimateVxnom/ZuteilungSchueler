@@ -463,3 +463,25 @@ body {
 .snake-close:hover {
   color: #dc2626;
 }
+.snake-touch-controls {
+  margin: 10px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.snake-touch-controls button {
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  margin: 2px 6px;
+  padding: 8px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.snake-touch-controls button:active {
+  background: #4f46e5;
+}

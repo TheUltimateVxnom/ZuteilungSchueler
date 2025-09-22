@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
 
-function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
+function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onShow404 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -46,6 +46,10 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view }) {
           >
              Bug melden
           </a>
+          <div className="menu-divider" />
+          <button className="menu-item" onClick={() => { setOpen(false); onShow404(); }}>
+            404
+          </button>
         </div>
       )}
     </div>
@@ -177,7 +181,7 @@ export default function App() {
   const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
   if (maintenance) return <Maintenance />;
 
-  const [view, setView] = useState("app"); // "app" oder "timeline"
+  const [view, setView] = useState("app"); // "app", "timeline", "404"
 
   return (
     <>
@@ -188,7 +192,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v2.2
+          © Lukas Diezinger, Release v2.2.1
         </a>
       </footer>
       <MenuDropdown
@@ -197,6 +201,7 @@ export default function App() {
         onShowTimeline={() => setView("timeline")}
         onShowApp={() => setView("app")}
         view={view}
+        onShow404={() => setView("404")}
       />
       <div className="app-container">
         <div className="app-inner">
@@ -283,12 +288,44 @@ export default function App() {
                 </section>
               </main>
             </>
+          ) : view === "404" ? (
+            <NotFound404 onShowApp={() => setView("app")} />
           ) : (
             <Timeline />
           )}
         </div>
       </div>
     </>
+  );
+}
+
+function NotFound404({ onShowApp }) {
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
+  return (
+    <section className="card" style={{ maxWidth: 400, margin: "60px auto", textAlign: "center" }}>
+      <h1 style={{ fontSize: "2.5rem", color: "#dc2626" }}>404</h1>
+      <p>Seite nicht gefunden</p>
+      <button className="btn btn-outline" onClick={toggleTheme} style={{ margin: "18px 0" }}>
+        {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
+      </button>
+      <br />
+      <button
+        className="btn btn-primary"
+        style={{ marginTop: 10 }}
+        onClick={() => window.open("https://www.youtube.com/embed/xvFZjo5PgG0?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0", "_blank")}
+      >
+        Zurück zur Seite
+      </button>
+      <div style={{ marginTop: 18, fontSize: 13, color: "#888" }}>
+        (Du wirst einfach zu Google geschickt 😁)
+      </div>
+    </section>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function MenuDropdown({ theme, toggleTheme, showSnake }) {
+function MenuDropdown({ theme, toggleTheme, showSnake, onShow404 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -30,6 +30,9 @@ function MenuDropdown({ theme, toggleTheme, showSnake }) {
           <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
              Snake spielen
+          </button>
+          <button className="menu-item" onClick={() => { setOpen(false); onShow404(); }}>
+            404
           </button>
         </div>
       )}
@@ -63,7 +66,7 @@ export default function Maintenance() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v2.2
+          © Lukas Diezinger, Release v2.2.1
         </a>
       </footer>
       <div
@@ -78,7 +81,7 @@ export default function Maintenance() {
           paddingTop: 0,
         }}
       >
-        <MenuDropdown theme={theme} toggleTheme={toggleTheme} showSnake={() => setSnakeOpen(true)} />
+        <MenuDropdown theme={theme} toggleTheme={toggleTheme} showSnake={() => setSnakeOpen(true)} onShow404={() => {}} />
         <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
           <h1>🚧 Wartungsmodus aktiv</h1>
           <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen. 
@@ -215,6 +218,17 @@ function SnakeOverlay({ onClose }) {
           tabIndex={0}
           style={{ outline: "none", background: "#222", borderRadius: 16, marginBottom: 12 }}
         />
+        {/* Touch-Steuerung */}
+        <div className="snake-touch-controls">
+          <div>
+            <button aria-label="Oben" onClick={() => running && setDir(dir => dir.y !== 1 ? { x: 0, y: -1 } : dir)}>▲</button>
+          </div>
+          <div>
+            <button aria-label="Links" onClick={() => running && setDir(dir => dir.x !== 1 ? { x: -1, y: 0 } : dir)}>◀</button>
+            <button aria-label="Unten" onClick={() => running && setDir(dir => dir.y !== -1 ? { x: 0, y: 1 } : dir)}>▼</button>
+            <button aria-label="Rechts" onClick={() => running && setDir(dir => dir.x !== -1 ? { x: 1, y: 0 } : dir)}>▶</button>
+          </div>
+        </div>
         {!started ? (
           <button
             className="btn btn-primary"
@@ -233,7 +247,7 @@ function SnakeOverlay({ onClose }) {
           </button>
         ) : null}
         <div style={{ color: "#fff", marginTop: 8, fontSize: 14 }}>
-          Mit den Pfeiltasten steuern. X klicken zum Schließen.
+          Mit den Pfeiltasten oder Buttons steuern. X klicken zum Schließen.
         </div>
       </div>
     </div>

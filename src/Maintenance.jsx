@@ -31,6 +31,7 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404 }) {
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
             🐍 Snake spielen
           </button>
+          <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); onShow404(); }}>
             ❌ 404
           </button>

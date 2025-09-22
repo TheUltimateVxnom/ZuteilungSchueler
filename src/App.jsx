@@ -30,11 +30,11 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
           <div className="menu-divider" />
           {view === "app" ? (
             <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
-              Externe Seite
+              ➡️ Externe Seite
             </button>
           ) : (
             <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>
-              Zurück zur App
+              ⬅️ Zurück zur App
             </button>
           )}
           <div className="menu-divider" />
@@ -44,11 +44,11 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
             target="_blank"
             rel="noopener noreferrer"
           >
-             Bug melden
+             🐞 Bug melden
           </a>
           <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); onShow404(); }}>
-            404
+            ❌ 404
           </button>
         </div>
       )}

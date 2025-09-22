@@ -29,10 +29,10 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404 }) {
           </button>
           <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
-             Snake spielen
+            🐍 Snake spielen
           </button>
           <button className="menu-item" onClick={() => { setOpen(false); onShow404(); }}>
-            404
+            ❌ 404
           </button>
         </div>
       )}
@@ -82,12 +82,14 @@ export default function Maintenance() {
           paddingTop: 0,
         }}
       >
-        <MenuDropdown
-          theme={theme}
-          toggleTheme={toggleTheme}
-          showSnake={() => setSnakeOpen(true)}
-          onShow404={() => setView("404")}
-        />
+        {view !== "404" && (
+          <MenuDropdown
+            theme={theme}
+            toggleTheme={toggleTheme}
+            showSnake={() => setSnakeOpen(true)}
+            onShow404={() => setView("404")}
+          />
+        )}
         {view === "main" && (
           <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
             <h1>🚧 Wartungsmodus aktiv</h1>
@@ -110,7 +112,7 @@ export default function Maintenance() {
               Zurück zur Seite
             </button>
             <div style={{ marginTop: 18, fontSize: 13, color: "#888" }}>
-              (Du wirst einfach zu Google geschickt 😁)
+              
             </div>
           </section>
         )}

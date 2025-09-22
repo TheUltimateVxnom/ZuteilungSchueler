@@ -43,6 +43,7 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404 }) {
 export default function Maintenance() {
   const [theme, setTheme] = useState("light");
   const [snakeOpen, setSnakeOpen] = useState(false);
+  const [view, setView] = useState("main"); // "main" oder "404"
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -81,12 +82,38 @@ export default function Maintenance() {
           paddingTop: 0,
         }}
       >
-        <MenuDropdown theme={theme} toggleTheme={toggleTheme} showSnake={() => setSnakeOpen(true)} onShow404={() => {}} />
-        <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
-          <h1>🚧 Wartungsmodus aktiv</h1>
-          <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen. 
-          </p>
-        </section>
+        <MenuDropdown
+          theme={theme}
+          toggleTheme={toggleTheme}
+          showSnake={() => setSnakeOpen(true)}
+          onShow404={() => setView("404")}
+        />
+        {view === "main" && (
+          <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
+            <h1>🚧 Wartungsmodus aktiv</h1>
+            <p>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
+          </section>
+        )}
+        {view === "404" && (
+          <section className="card" style={{ maxWidth: 400, margin: "60px auto", textAlign: "center" }}>
+            <h1 style={{ fontSize: "2.5rem", color: "#dc2626" }}>404</h1>
+            <p>Seite nicht gefunden</p>
+            <button className="btn btn-outline" onClick={toggleTheme} style={{ margin: "18px 0" }}>
+              {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
+            </button>
+            <br />
+            <button
+              className="btn btn-primary"
+              style={{ marginTop: 10 }}
+              onClick={() => window.open("https://www.youtube.com/embed/xvFZjo5PgG0?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0", "_blank")}
+            >
+              Zurück zur Seite
+            </button>
+            <div style={{ marginTop: 18, fontSize: 13, color: "#888" }}>
+              (Du wirst einfach zu Google geschickt 😁)
+            </div>
+          </section>
+        )}
         {snakeOpen && <SnakeOverlay onClose={() => setSnakeOpen(false)} />}
       </div>
     </>

@@ -24,10 +24,14 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
       </button>
       {open && (
         <div className="menu-dropdown">
-          <button className="menu-item" onClick={toggleTheme}>
-            {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
-          </button>
-          <div className="menu-divider" />
+          <button 
+          className="menu-item" 
+          onClick={toggleTheme} 
+          disabled={true}
+           >
+           {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
+            </button>
+            <div className="menu-divider" />
           {view === "app" ? (
             <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
               ➡️ Changelog / Timeline

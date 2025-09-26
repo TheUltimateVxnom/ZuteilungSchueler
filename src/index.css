@@ -519,3 +519,10 @@ body, .app-container, .card, .timeline-card, .dropzone, .grid-section, .footer, 
 input, textarea, [contenteditable="true"] {
   user-select: text !important;
 }
+.menu-item:disabled {
+  background-color: #ccc;
+  color: #666;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+

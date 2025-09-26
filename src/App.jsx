@@ -63,6 +63,14 @@ export default function App() {
   const [history, setHistory] = useState({});
   const dragStudent = useRef(null);
 
+  // Verlauf beim Laden aus Local Storage holen
+  useEffect(() => {
+    const saved = localStorage.getItem("schueler_history");
+    if (saved) {
+      setHistory(JSON.parse(saved));
+    }
+  }, []);
+
   // Update students array from textarea
   useEffect(() => {
     const arr = studentsText.split(/\r?\n/).map(s => s.trim()).filter(s => s);
@@ -80,7 +88,7 @@ export default function App() {
       group: [],
       classroom: names,
     });
-    setHistory({});
+    // Verlauf NICHT zurücksetzen, damit alte Werte erhalten bleiben!
   }
 
   // Drag & Drop Handler
@@ -104,7 +112,7 @@ export default function App() {
     dragStudent.current = null;
   }
 
-  // Zählen-Button: History aktualisieren
+  // Zählen-Button: History aktualisieren und speichern
   function handleCount() {
     const newHistory = { ...history };
     students.forEach(name => {
@@ -114,11 +122,13 @@ export default function App() {
     areas.group.forEach(n => newHistory[n].group++);
     areas.classroom.forEach(n => newHistory[n].classroom++);
     setHistory(newHistory);
+    localStorage.setItem("schueler_history", JSON.stringify(newHistory));
   }
 
-  // Verlauf zurücksetzen
+  // Verlauf zurücksetzen (auch aus Local Storage)
   function handleResetHistory() {
     setHistory({});
+    localStorage.removeItem("schueler_history");
   }
 
   // Export Namen
@@ -334,49 +344,49 @@ function Timeline() {
       <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>
       <div className="timeline-list">
         <div className="timeline-item">
-  <div
-    className="timeline-dot"
-    style={{
-      background: "#4f46e5", // gelb
-      boxShadow: "0 0 16px 4px #4f46e5"
-    }}
-  />
-  <div>
-    <div className="timeline-date">Release v3.0</div>
-    <div className="timeline-content">🤫</div>
-  </div>
-</div>
-<div className="timeline-item">
-  <div
-    className="timeline-dot"
-    style={{
-      background: "#16a34a", // rot
-      boxShadow: "0 0 16px 4px #16a34a"
-    }}
-  />
-  <div>
-    <div className="timeline-date">Beta v3.0</div>
-    <div className="timeline-content">Test für neue Features</div>
-  </div>
-</div>
-      <div className="timeline-item">
-        <div
-          className="timeline-dot"
-          style={{
-            background: "#4f46e5", // lila
-            boxShadow: "0 0 16px 4px #4f46e5"
-          }}
-        />
-        <div>
-          <div className="timeline-date">Release v2.2</div>
-          <div className="timeline-content">Snake-Game im Wartungsmodus, Dunkle Pfeile und Scrollbar</div>
-        </div>
-      </div>
-      <div className="timeline-item">
           <div
             className="timeline-dot"
             style={{
-              background: "#4f46e5", // lila
+              background: "#4f46e5",
+              boxShadow: "0 0 16px 4px #4f46e5"
+            }}
+          />
+          <div>
+            <div className="timeline-date">Release v3.0</div>
+            <div className="timeline-content">🤫</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div
+            className="timeline-dot"
+            style={{
+              background: "#16a34a",
+              boxShadow: "0 0 16px 4px #16a34a"
+            }}
+          />
+          <div>
+            <div className="timeline-date">Beta v3.0</div>
+            <div className="timeline-content">Test für neue Features</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div
+            className="timeline-dot"
+            style={{
+              background: "#4f46e5",
+              boxShadow: "0 0 16px 4px #4f46e5"
+            }}
+          />
+          <div>
+            <div className="timeline-date">Release v2.2</div>
+            <div className="timeline-content">Snake-Game im Wartungsmodus, Dunkle Pfeile und Scrollbar</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div
+            className="timeline-dot"
+            style={{
+              background: "#4f46e5",
               boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />
@@ -389,7 +399,7 @@ function Timeline() {
           <div
             className="timeline-dot"
             style={{
-              background: "#4f46e5", // grün
+              background: "#4f46e5",
               boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />
@@ -402,7 +412,7 @@ function Timeline() {
           <div
             className="timeline-dot"
             style={{
-              background: "#4f46e5", // lila
+              background: "#4f46e5",
               boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />
@@ -415,7 +425,7 @@ function Timeline() {
           <div
             className="timeline-dot"
             style={{
-              background: "#4f46e5", // lila
+              background: "#4f46e5",
               boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />
@@ -428,7 +438,7 @@ function Timeline() {
           <div
             className="timeline-dot"
             style={{
-              background: "#4f46e5", // lila
+              background: "#4f46e5",
               boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />

@@ -265,7 +265,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v2.2.1
+          © Lukas Diezinger, Beta v3.0
         </a>
       </footer>
       <MenuDropdown

@@ -46,10 +46,6 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
           >
              🐞 Bug melden
           </a>
-          <div className="menu-divider" />
-          <button className="menu-item" onClick={() => { setOpen(false); onShow404(); }}>
-            ❌ 404
-          </button>
         </div>
       )}
     </div>

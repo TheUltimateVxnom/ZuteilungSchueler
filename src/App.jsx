@@ -59,12 +59,13 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
 export default function App() {
   const [studentsText, setStudentsText] = useState("");
   const [students, setStudents] = useState([]);
-  const [capacityOutside, setCapacityOutside] = useState(3);
-  const [capacityGroup, setCapacityGroup] = useState(3);
-  const [outside, setOutside] = useState([]);
-  const [groupRoom, setGroupRoom] = useState([]);
-  const [classroom, setClassroom] = useState([]);
+  const [areas, setAreas] = useState({
+    outside: [],
+    group: [],
+    classroom: [],
+  });
   const [history, setHistory] = useState({});
+  const dragStudent = useRef(null);
   const STORAGE_KEY = "schueler_zuteilung_state_v1";
 
   // Update students array from textarea
@@ -182,6 +183,78 @@ export default function App() {
   if (maintenance) return <Maintenance />;
 
   const [view, setView] = useState("app"); // "app", "timeline", "404"
+
+  // Namen übernehmen und Kacheln erzeugen
+  function handleNames() {
+    const names = Array.from(new Set(
+      studentsText.split(/\r?\n/).map(s => s.trim()).filter(Boolean)
+    ));
+    setStudents(names);
+    setAreas({
+      outside: names,
+      group: [],
+      classroom: [],
+    });
+    setHistory({});
+  }
+
+  // Drag & Drop Handler
+  function onDragStart(name) {
+    dragStudent.current = name;
+  }
+  function onDrop(area) {
+    const name = dragStudent.current;
+    if (!name) return;
+    setAreas(prev => {
+      // Entferne aus allen Bereichen
+      const newAreas = {
+        outside: prev.outside.filter(n => n !== name),
+        group: prev.group.filter(n => n !== name),
+        classroom: prev.classroom.filter(n => n !== name),
+      };
+      // Füge in Zielbereich ein
+      newAreas[area] = [...newAreas[area], name];
+      return newAreas;
+    });
+    dragStudent.current = null;
+  }
+
+  // Zählen-Button: History aktualisieren
+  function handleCount() {
+    const newHistory = { ...history };
+    students.forEach(name => {
+      if (!newHistory[name]) newHistory[name] = { outside: 0, group: 0, classroom: 0 };
+    });
+    areas.outside.forEach(n => newHistory[n].outside++);
+    areas.group.forEach(n => newHistory[n].group++);
+    areas.classroom.forEach(n => newHistory[n].classroom++);
+    setHistory(newHistory);
+  }
+
+  // Kachel-Rendering
+  function renderTile(name) {
+    return (
+      <div
+        key={name}
+        className="student-tile"
+        draggable
+        onDragStart={() => onDragStart(name)}
+        style={{
+          margin: "6px 0",
+          background: "#4f46e5",
+          color: "#fff",
+          borderRadius: "10px",
+          padding: "8px 16px",
+          cursor: "grab",
+          fontWeight: "bold",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+          userSelect: "none",
+        }}
+      >
+        {name}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -334,12 +407,38 @@ function Timeline() {
     <section className="card timeline-card" style={{ maxWidth: 600, margin: "40px auto" }}>
       <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>
       <div className="timeline-list">
+        <div className="timeline-item">
+  <div
+    className="timeline-dot"
+    style={{
+      background: "#4f46e5", // gelb
+      boxShadow: "0 0 16px 4px #4f46e5"
+    }}
+  />
+  <div>
+    <div className="timeline-date">Release v3.0</div>
+    <div className="timeline-content">🤫</div>
+  </div>
+</div>
+<div className="timeline-item">
+  <div
+    className="timeline-dot"
+    style={{
+      background: "#16a34a", // rot
+      boxShadow: "0 0 16px 4px #16a34a"
+    }}
+  />
+  <div>
+    <div className="timeline-date">Beta v3.0</div>
+    <div className="timeline-content">Test für neue Features</div>
+  </div>
+</div>
       <div className="timeline-item">
         <div
           className="timeline-dot"
           style={{
-            background: "#16a34a", // lila
-            boxShadow: "0 0 16px 4px #16a34a"
+            background: "#4f46e5", // lila
+            boxShadow: "0 0 16px 4px #4f46e5"
           }}
         />
         <div>

@@ -73,16 +73,16 @@ export default function App() {
     setStudents(Array.from(new Set(arr)));
   }, [studentsText]);
 
-  // Namen übernehmen und Kacheln erzeugen
+  // Namen übernehmen und Kacheln erzeugen (jetzt standardmäßig im Klassenzimmer)
   function handleNames() {
     const names = Array.from(new Set(
       studentsText.split(/\r?\n/).map(s => s.trim()).filter(Boolean)
     ));
     setStudents(names);
     setAreas({
-      outside: names,
+      outside: [],
       group: [],
-      classroom: [],
+      classroom: names,
     });
     setHistory({});
   }
@@ -120,6 +120,33 @@ export default function App() {
     setHistory(newHistory);
   }
 
+  // Verlauf zurücksetzen
+  function handleResetHistory() {
+    setHistory({});
+  }
+
+  // Export Namen
+  function handleExport() {
+    const blob = new Blob([studentsText], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "schuelerliste.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Import Namen
+  function handleImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = evt => {
+      setStudentsText(evt.target.result);
+    };
+    reader.readAsText(file);
+  }
+
   // Kachel-Rendering
   function renderTile(name) {
     return (
@@ -128,17 +155,6 @@ export default function App() {
         className="student-tile"
         draggable
         onDragStart={() => onDragStart(name)}
-        style={{
-          margin: "6px 0",
-          background: "#4f46e5",
-          color: "#fff",
-          borderRadius: "10px",
-          padding: "8px 16px",
-          cursor: "grab",
-          fontWeight: "bold",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-          userSelect: "none",
-        }}
       >
         {name}
       </div>
@@ -198,10 +214,17 @@ export default function App() {
                     className="card-input" 
                     placeholder="Namen hier eingeben, jeweils eine Zeile"
                   />
-                  <div style={{display:"flex", justifyContent:"center", marginTop:"10px"}}>
+                  <div style={{display:"flex", flexWrap:"wrap", gap:"8px", justifyContent:"center", marginTop:"10px"}}>
                     <button className="btn btn-primary" onClick={handleNames}>
                       Namen übernehmen
                     </button>
+                    <button className="btn btn-outline" onClick={handleExport}>
+                      Export
+                    </button>
+                    <label className="btn btn-outline" style={{cursor:"pointer", marginBottom:0}}>
+                      Import
+                      <input type="file" accept=".txt" style={{display:"none"}} onChange={handleImport} />
+                    </label>
                   </div>
                 </section>
 
@@ -233,9 +256,14 @@ export default function App() {
                       {areas.classroom.map(renderTile)}
                     </div>
                   </div>
-                  <button className="btn btn-primary" style={{marginTop: 10}} onClick={handleCount}>
-                    Zählen
-                  </button>
+                  <div style={{display:"flex", gap:"8px", marginTop:"10px"}}>
+                    <button className="btn btn-primary" onClick={handleCount}>
+                      Zählen
+                    </button>
+                    <button className="btn btn-outline" onClick={handleResetHistory}>
+                      Verlauf zurücksetzen
+                    </button>
+                  </div>
                 </section>
 
                 <section className="card">

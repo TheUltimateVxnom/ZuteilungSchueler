@@ -511,3 +511,11 @@ body {
   padding: 12px;
   margin-bottom: 18px;
 }
+
+body, .app-container, .card, .timeline-card, .dropzone, .grid-section, .footer, .menu-dropdown, .menu-item, .timeline-date, .timeline-content, h1, h2, h3, h4, h5, h6, p, label, .student-tile {
+  user-select: none;
+}
+
+input, textarea, [contenteditable="true"] {
+  user-select: text !important;
+}

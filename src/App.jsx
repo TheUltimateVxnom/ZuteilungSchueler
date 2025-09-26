@@ -190,7 +190,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v3.0
+          © Lukas Diezinger, Release v3.0
         </a>
       </footer>
       <MenuDropdown
@@ -347,21 +347,21 @@ function Timeline() {
           <div
             className="timeline-dot"
             style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
+              background: "#16a34a",
+              boxShadow: "0 0 16px 4px #16a34a"
             }}
           />
           <div>
             <div className="timeline-date">Release v3.0</div>
-            <div className="timeline-content">🤫</div>
+            <div className="timeline-content">Drag and Drop statt Zufallszuteilung</div>
           </div>
         </div>
         <div className="timeline-item">
           <div
             className="timeline-dot"
             style={{
-              background: "#16a34a",
-              boxShadow: "0 0 16px 4px #16a34a"
+              background: "#4f46e5",
+              boxShadow: "0 0 16px 4px #4f46e5"
             }}
           />
           <div>

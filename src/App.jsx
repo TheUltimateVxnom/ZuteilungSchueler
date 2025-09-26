@@ -30,7 +30,7 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
           <div className="menu-divider" />
           {view === "app" ? (
             <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
-              ➡️ Externe Seite
+              ➡️ Changelog / Timeline
             </button>
           ) : (
             <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>
@@ -332,7 +332,6 @@ function NotFound404({ onShowApp }) {
         Zurück zur Seite
       </button>
       <div style={{ marginTop: 18, fontSize: 13, color: "#888" }}>
-        (Du wirst einfach zu Google geschickt 😁)
       </div>
     </section>
   );

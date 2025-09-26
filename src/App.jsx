@@ -256,7 +256,7 @@ export default function App() {
                     <button className="btn btn-primary" onClick={handleCount}>
                       Zählen
                     </button>
-                    <button className="btn btn-outline" onClick={handleResetHistory}>
+                    <button className="btn btn-danger" onClick={handleResetHistory}>
                       Verlauf zurücksetzen
                     </button>
                   </div>

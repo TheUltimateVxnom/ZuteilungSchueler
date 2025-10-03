@@ -41,6 +41,13 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
               value={accent}
               onChange={(e) => onAccentChange(e.target.value)}
             />
+            <button
+              className="menu-item"
+              onClick={() => { onAccentChange('#4f46e5'); setOpen(false); }}
+              style={{ marginTop: 6 }}
+            >
+              Zurücksetzen
+            </button>
           </div>
           <div className="menu-divider" />
           {view === "app" ? (
@@ -191,7 +198,8 @@ export default function App() {
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   // Accent color for main app (picker in menu)
-  const [accent, setAccent] = useState(() => localStorage.getItem('accent') || '#4f46e5');
+  // Note: do NOT persist to localStorage so reload returns to default purple
+  const [accent, setAccent] = useState('#4f46e5');
   useEffect(() => {
     try { document.documentElement.style.setProperty('--accent', accent); } catch (e) {}
   }, [accent]);
@@ -203,7 +211,7 @@ export default function App() {
       const dark = shadeColor(hex, -12);
       document.documentElement.style.setProperty('--accent-hover', dark);
     } catch (e) {}
-    localStorage.setItem('accent', hex);
+    // intentionally not storing in localStorage so page reload resets to default
   };
 
   function shadeColor(hex, percent) {

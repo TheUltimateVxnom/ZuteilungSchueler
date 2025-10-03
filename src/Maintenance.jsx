@@ -37,6 +37,13 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAcce
               value={accent}
               onChange={(e) => onAccentChange(e.target.value)}
             />
+            <button
+              className="menu-item"
+              onClick={() => { onAccentChange('#4f46e5'); setOpen(false); }}
+              style={{ marginTop: 6 }}
+            >
+              Zurücksetzen
+            </button>
           </div>
           <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
@@ -62,10 +69,8 @@ export default function Maintenance() {
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
-    const savedAccent = localStorage.getItem('accent') || '#4f46e5';
-    setAccent(savedAccent);
-    // Apply accent immediately
-    try { document.documentElement.style.setProperty('--accent', savedAccent); } catch (e) {}
+    // Do NOT load saved accent from localStorage — keep default purple on reload
+    try { document.documentElement.style.setProperty('--accent', '#4f46e5'); } catch (e) {}
   }, []);
 
   const toggleTheme = () => {
@@ -84,7 +89,7 @@ export default function Maintenance() {
       const dark = shadeColor(hex, -12);
       document.documentElement.style.setProperty('--accent-hover', dark);
     } catch (e) {}
-    localStorage.setItem('accent', hex);
+    // intentionally not storing in localStorage so page reload resets to default
   };
 
   // small helper to darken/lighten hex color

@@ -533,6 +533,18 @@ body {
   background: #232323;
   box-shadow: 0 0 20px 4px var(--accent);
 }
+
+/* Light mode: student tiles should be light background with dark text */
+[data-theme="light"] .student-tile {
+  background: #fff;
+  color: #1f1f1f;
+  border: 2px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .student-tile:active {
+  background: #f3f4f6;
+  box-shadow: 0 0 10px 2px rgba(79,70,229,0.08);
+}
 .dropzone {
   min-height: 60px;
   background: var(--card-bg);

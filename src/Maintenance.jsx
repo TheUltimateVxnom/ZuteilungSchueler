@@ -28,14 +28,14 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAcce
             {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
           </button>
           <div className="menu-divider" />
-          <div style={{ padding: '6px 16px' }}>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 6 }}>Akzentfarbe wählen</label>
+          <div className="menu-item" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <span style={{ display: 'block' }}>Akzentfarbe wählen</span>
             <input
               aria-label="Accent color"
               type="color"
+              className="color-picker"
               value={accent}
               onChange={(e) => onAccentChange(e.target.value)}
-              style={{ width: '100%', height: 36, borderRadius: 8, border: 'none', cursor: 'pointer' }}
             />
           </div>
           <div className="menu-divider" />

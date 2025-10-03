@@ -27,7 +27,7 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
           <button 
           className="menu-item" 
           onClick={toggleTheme} 
-          disabled={true}
+          disabled={false}
            >
            {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
             </button>

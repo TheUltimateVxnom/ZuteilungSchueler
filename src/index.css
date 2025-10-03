@@ -541,8 +541,11 @@ body {
   background: #fff;
   color: #1f1f1f;
   /* use the accent color (translucent) for the border so it follows the picker's color */
-  border: 1px solid rgba(var(--accent-rgb, 79,70,229), 0.16);
+  /* Make the border more visible in light mode by increasing opacity */
+  border: 1px solid rgba(var(--accent-rgb, 79,70,229), 0.28);
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  /* subtle hairline outline to improve contrast on very light backgrounds */
+  outline: 1px solid rgba(0,0,0,0.02);
 }
 [data-theme="light"] .student-tile:active {
   background: #f3f4f6;

@@ -190,10 +190,25 @@ export default function App() {
   }
 
   // Theme-Handling für das Menü
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  const getInitialTheme = () => {
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved;
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    return 'light';
+  };
+  const [theme, setTheme] = useState(getInitialTheme);
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
+  }, [theme]);
+  // Keep local theme state in sync with document's data-theme (e.g. set by main.jsx)
+  useEffect(() => {
+    const obs = new MutationObserver(() => {
+      const docTheme = document.documentElement.getAttribute('data-theme');
+      if (docTheme && docTheme !== theme) setTheme(docTheme);
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => obs.disconnect();
   }, [theme]);
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
@@ -211,6 +226,8 @@ export default function App() {
       const dark = shadeColor(hex, -12);
       document.documentElement.style.setProperty('--accent-hover', dark);
     } catch (e) {}
+    // also update accent-rgb for translucent borders
+    try { document.documentElement.style.setProperty('--accent-rgb', hexToRgbString(hex)); } catch (e) {}
     // intentionally not storing in localStorage so page reload resets to default
   };
 
@@ -224,6 +241,15 @@ export default function App() {
     g = Math.max(Math.min(255, g), 0);
     b = Math.max(Math.min(255, b), 0);
     return '#' + ( (1<<24) + (r<<16) + (g<<8) + b ).toString(16).slice(1);
+  }
+
+  function hexToRgbString(hex) {
+    const h = hex.replace('#','');
+    const num = parseInt(h,16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `${r},${g},${b}`;
   }
 
   // Wartungsmodus prüfen

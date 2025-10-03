@@ -73,6 +73,16 @@ export default function Maintenance() {
     try { document.documentElement.style.setProperty('--accent', '#4f46e5'); } catch (e) {}
   }, []);
 
+  // Keep local theme state in sync with document's data-theme (main.jsx might set it)
+  useEffect(() => {
+    const obs = new MutationObserver(() => {
+      const docTheme = document.documentElement.getAttribute('data-theme');
+      if (docTheme && docTheme !== theme) setTheme(docTheme);
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => obs.disconnect();
+  }, [theme]);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -89,6 +99,8 @@ export default function Maintenance() {
       const dark = shadeColor(hex, -12);
       document.documentElement.style.setProperty('--accent-hover', dark);
     } catch (e) {}
+    // also update accent-rgb for translucent borders
+    try { document.documentElement.style.setProperty('--accent-rgb', hexToRgbString(hex)); } catch (e) {}
     // intentionally not storing in localStorage so page reload resets to default
   };
 
@@ -104,6 +116,15 @@ export default function Maintenance() {
     g = Math.max(Math.min(255, g), 0);
     b = Math.max(Math.min(255, b), 0);
     return '#' + ( (1<<24) + (r<<16) + (g<<8) + b ).toString(16).slice(1);
+  }
+
+  function hexToRgbString(hex) {
+    const h = hex.replace('#','');
+    const num = parseInt(h,16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `${r},${g},${b}`;
   }
 
   return (

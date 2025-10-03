@@ -267,7 +267,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v4.0
+          © Lukas Diezinger, Release v4.0
         </a>
       </footer>
       <MenuDropdown
@@ -429,6 +429,20 @@ function Timeline() {
               boxShadow: "0 0 16px 4px #16a34a"
             }}
           />
+          <div>
+            <div className="timeline-date">Release v4.0</div>
+            <div className="timeline-content">Akzent-Farbpicker, Menü- und Theme-Synchronisation, Tab-Icon</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+            <div className="timeline-date">Beta v4.0</div>
+            <div className="timeline-content">Test für neue Features</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Release v3.0</div>
             <div className="timeline-content">Drag and Drop statt Zufallszuteilung</div>

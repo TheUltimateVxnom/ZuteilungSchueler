@@ -136,7 +136,7 @@ export default function Maintenance() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v4.0
+          © Lukas Diezinger, Release v4.0
         </a>
       </footer>
       <div

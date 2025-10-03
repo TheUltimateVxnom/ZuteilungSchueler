@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function MenuDropdown({ theme, toggleTheme, showSnake, onShow404 }) {
+function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -28,6 +28,17 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404 }) {
             {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
           </button>
           <div className="menu-divider" />
+          <div style={{ padding: '6px 16px' }}>
+            <label style={{ display: 'block', fontSize: 12, marginBottom: 6 }}>Akzentfarbe wählen</label>
+            <input
+              aria-label="Accent color"
+              type="color"
+              value={accent}
+              onChange={(e) => onAccentChange(e.target.value)}
+              style={{ width: '100%', height: 36, borderRadius: 8, border: 'none', cursor: 'pointer' }}
+            />
+          </div>
+          <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
             🐍 Snake spielen
           </button>
@@ -43,6 +54,7 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404 }) {
 
 export default function Maintenance() {
   const [theme, setTheme] = useState("light");
+  const [accent, setAccent] = useState("#4f46e5");
   const [snakeOpen, setSnakeOpen] = useState(false);
   const [view, setView] = useState("main"); // "main" oder "404"
 
@@ -50,6 +62,10 @@ export default function Maintenance() {
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
+    const savedAccent = localStorage.getItem('accent') || '#4f46e5';
+    setAccent(savedAccent);
+    // Apply accent immediately
+    try { document.documentElement.style.setProperty('--accent', savedAccent); } catch (e) {}
   }, []);
 
   const toggleTheme = () => {
@@ -58,6 +74,32 @@ export default function Maintenance() {
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   };
+
+  const handleAccentChange = (hex) => {
+    setAccent(hex);
+    try { document.documentElement.style.setProperty('--accent', hex); } catch (e) {}
+    // also update accent-hover slightly darker for nicer UX
+    try {
+      // simple darker variant by reducing lightness a bit (naive)
+      const dark = shadeColor(hex, -12);
+      document.documentElement.style.setProperty('--accent-hover', dark);
+    } catch (e) {}
+    localStorage.setItem('accent', hex);
+  };
+
+  // small helper to darken/lighten hex color
+  function shadeColor(hex, percent) {
+    // hex in format #rrggbb
+    const h = hex.replace('#','');
+    const num = parseInt(h,16);
+    let r = (num >> 16) + Math.round(255 * (percent/100));
+    let g = ((num >> 8) & 0x00FF) + Math.round(255 * (percent/100));
+    let b = (num & 0x0000FF) + Math.round(255 * (percent/100));
+    r = Math.max(Math.min(255, r), 0);
+    g = Math.max(Math.min(255, g), 0);
+    b = Math.max(Math.min(255, b), 0);
+    return '#' + ( (1<<24) + (r<<16) + (g<<8) + b ).toString(16).slice(1);
+  }
 
   return (
     <>
@@ -68,7 +110,7 @@ export default function Maintenance() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v3.0
+          © Lukas Diezinger, Beta v4.0
         </a>
       </footer>
       <div
@@ -89,6 +131,8 @@ export default function Maintenance() {
             toggleTheme={toggleTheme}
             showSnake={() => setSnakeOpen(true)}
             onShow404={() => setView("404")}
+            accent={accent}
+            onAccentChange={handleAccentChange}
           />
         )}
         {view === "main" && (
@@ -191,8 +235,11 @@ function SnakeOverlay({ onClose }) {
     const ctx = canvasRef.current.getContext("2d");
     ctx.fillStyle = "#222";
     ctx.fillRect(0, 0, size * tile, size * tile);
+    // determine accent color from CSS variable so canvas follows the picker
+    const css = getComputedStyle(document.documentElement);
+    const accentCol = css.getPropertyValue('--accent')?.trim() || '#4f46e5';
     // Snake
-    ctx.fillStyle = "#4f46e5";
+    ctx.fillStyle = accentCol;
     snake.forEach(s => ctx.fillRect(s.x * tile, s.y * tile, tile - 2, tile - 2));
     // Food
     ctx.fillStyle = "#16a34a";
@@ -214,7 +261,7 @@ function SnakeOverlay({ onClose }) {
     }
     if (!started) {
       ctx.font = "bold 28px Segoe UI";
-      ctx.fillStyle = "#4f46e5";
+      ctx.fillStyle = accentCol;
       ctx.textAlign = "center";
       ctx.fillText("Snake", (size * tile) / 2, (size * tile) / 2 - 10);
       ctx.font = "bold 18px Segoe UI";

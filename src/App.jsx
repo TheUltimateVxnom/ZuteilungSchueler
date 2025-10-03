@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
 
-function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onShow404 }) {
+function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onShow404, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -32,6 +32,17 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
            {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
             </button>
             <div className="menu-divider" />
+          <div style={{ padding: '6px 16px' }}>
+            <label style={{ display: 'block', fontSize: 12, marginBottom: 6 }}>Akzentfarbe wählen</label>
+            <input
+              aria-label="Accent color"
+              type="color"
+              value={accent}
+              onChange={(e) => onAccentChange(e.target.value)}
+              style={{ width: '100%', height: 36, borderRadius: 8, border: 'none', cursor: 'pointer' }}
+            />
+          </div>
+          <div className="menu-divider" />
           {view === "app" ? (
             <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
               ➡️ Changelog / Timeline
@@ -179,6 +190,34 @@ export default function App() {
   }, [theme]);
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
+  // Accent color for main app (picker in menu)
+  const [accent, setAccent] = useState(() => localStorage.getItem('accent') || '#4f46e5');
+  useEffect(() => {
+    try { document.documentElement.style.setProperty('--accent', accent); } catch (e) {}
+  }, [accent]);
+
+  const handleAccentChange = (hex) => {
+    setAccent(hex);
+    try { document.documentElement.style.setProperty('--accent', hex); } catch (e) {}
+    try {
+      const dark = shadeColor(hex, -12);
+      document.documentElement.style.setProperty('--accent-hover', dark);
+    } catch (e) {}
+    localStorage.setItem('accent', hex);
+  };
+
+  function shadeColor(hex, percent) {
+    const h = hex.replace('#','');
+    const num = parseInt(h,16);
+    let r = (num >> 16) + Math.round(255 * (percent/100));
+    let g = ((num >> 8) & 0x00FF) + Math.round(255 * (percent/100));
+    let b = (num & 0x0000FF) + Math.round(255 * (percent/100));
+    r = Math.max(Math.min(255, r), 0);
+    g = Math.max(Math.min(255, g), 0);
+    b = Math.max(Math.min(255, b), 0);
+    return '#' + ( (1<<24) + (r<<16) + (g<<8) + b ).toString(16).slice(1);
+  }
+
   // Wartungsmodus prüfen
   const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
   if (maintenance) return <Maintenance />;
@@ -194,7 +233,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Release v3.0
+          © Lukas Diezinger, Beta v4.0
         </a>
       </footer>
       <MenuDropdown
@@ -204,6 +243,8 @@ export default function App() {
         onShowApp={() => setView("app")}
         view={view}
         onShow404={() => setView("404")}
+        accent={accent}
+        onAccentChange={handleAccentChange}
       />
       <div className="app-container">
         <div className="app-inner">
@@ -360,91 +401,49 @@ function Timeline() {
           </div>
         </div>
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
-            }}
-          />
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Beta v3.0</div>
             <div className="timeline-content">Test für neue Features</div>
           </div>
         </div>
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
-            }}
-          />
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Release v2.2</div>
             <div className="timeline-content">Snake-Game im Wartungsmodus, Dunkle Pfeile und Scrollbar</div>
           </div>
         </div>
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
-            }}
-          />
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Release v2.0</div>
             <div className="timeline-content">Timeline, Anpassung für jedes Gerät, Bug-Meldefunktion</div>
           </div>
         </div>
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
-            }}
-          />
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Beta v2.0</div>
             <div className="timeline-content">Tests für den Release v2.0</div>
           </div>
         </div>
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
-            }}
-          />
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Release v1.2</div>
             <div className="timeline-content">Wartungsmodus, Hoveranimationen, Glow</div>
           </div>
         </div>
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
-            }}
-          />
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Release v1.0</div>
             <div className="timeline-content">Dark-Mode</div>
           </div>
         </div>
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#4f46e5",
-              boxShadow: "0 0 16px 4px #4f46e5"
-            }}
-          />
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Beta v1.0</div>
             <div className="timeline-content">Projekt gestartet</div>

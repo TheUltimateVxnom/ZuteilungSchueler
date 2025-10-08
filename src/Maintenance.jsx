@@ -61,7 +61,8 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAcce
 
 export default function Maintenance() {
   const [theme, setTheme] = useState("light");
-  const [accent, setAccent] = useState("#4f46e5");
+  // Load persisted accent if present so reload restores user's choice
+  const [accent, setAccent] = useState(() => localStorage.getItem('schueler_accent') || '#4f46e5');
   const [snakeOpen, setSnakeOpen] = useState(false);
   const [view, setView] = useState("main"); // "main" oder "404"
 
@@ -69,8 +70,10 @@ export default function Maintenance() {
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
-    // Do NOT load saved accent from localStorage — keep default purple on reload
-    try { document.documentElement.style.setProperty('--accent', '#4f46e5'); } catch (e) {}
+    // Apply persisted accent (if any)
+    try { document.documentElement.style.setProperty('--accent', accent); } catch (e) {}
+    try { document.documentElement.style.setProperty('--accent-hover', shadeColor(accent, -12)); } catch (e) {}
+    try { document.documentElement.style.setProperty('--accent-rgb', hexToRgbString(accent)); } catch (e) {}
   }, []);
 
   // Keep local theme state in sync with document's data-theme (main.jsx might set it)
@@ -93,15 +96,9 @@ export default function Maintenance() {
   const handleAccentChange = (hex) => {
     setAccent(hex);
     try { document.documentElement.style.setProperty('--accent', hex); } catch (e) {}
-    // also update accent-hover slightly darker for nicer UX
-    try {
-      // simple darker variant by reducing lightness a bit (naive)
-      const dark = shadeColor(hex, -12);
-      document.documentElement.style.setProperty('--accent-hover', dark);
-    } catch (e) {}
-    // also update accent-rgb for translucent borders
+    try { document.documentElement.style.setProperty('--accent-hover', shadeColor(hex, -12)); } catch (e) {}
     try { document.documentElement.style.setProperty('--accent-rgb', hexToRgbString(hex)); } catch (e) {}
-    // intentionally not storing in localStorage so page reload resets to default
+    try { localStorage.setItem('schueler_accent', hex); } catch (e) {}
   };
 
   // small helper to darken/lighten hex color

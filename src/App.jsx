@@ -213,22 +213,19 @@ export default function App() {
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   // Accent color for main app (picker in menu)
-  // Note: do NOT persist to localStorage so reload returns to default purple
-  const [accent, setAccent] = useState('#4f46e5');
+  // Persist the chosen accent so reload restores the user's selection
+  const [accent, setAccent] = useState(() => localStorage.getItem('schueler_accent') || '#4f46e5');
+
+  // Apply accent CSS vars and persist to localStorage whenever accent changes
   useEffect(() => {
     try { document.documentElement.style.setProperty('--accent', accent); } catch (e) {}
+    try { document.documentElement.style.setProperty('--accent-hover', shadeColor(accent, -12)); } catch (e) {}
+    try { document.documentElement.style.setProperty('--accent-rgb', hexToRgbString(accent)); } catch (e) {}
+    try { localStorage.setItem('schueler_accent', accent); } catch (e) {}
   }, [accent]);
 
   const handleAccentChange = (hex) => {
     setAccent(hex);
-    try { document.documentElement.style.setProperty('--accent', hex); } catch (e) {}
-    try {
-      const dark = shadeColor(hex, -12);
-      document.documentElement.style.setProperty('--accent-hover', dark);
-    } catch (e) {}
-    // also update accent-rgb for translucent borders
-    try { document.documentElement.style.setProperty('--accent-rgb', hexToRgbString(hex)); } catch (e) {}
-    // intentionally not storing in localStorage so page reload resets to default
   };
 
   function shadeColor(hex, percent) {

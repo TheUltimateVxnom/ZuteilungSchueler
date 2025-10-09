@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import TextType from './TextType';
-import './TextType.css';
+import ScrambledText from './ScrambledText';
+import './ScrambledText.css';
 
 function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
@@ -163,13 +163,7 @@ export default function Maintenance() {
         {view === "main" && (
           <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
             <h1 style={{ margin: 0 }}>
-              <TextType
-                text={["�️ Website in Wartung"]}
-                typingSpeed={75}
-                pauseDuration={1500}
-                showCursor={true}
-                cursorCharacter="|"
-              />
+              <ScrambledText text={"🛠️ Website in Wartung"} duration={1600} />
             </h1>
             <p style={{ marginTop: 12 }}>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
           </section>

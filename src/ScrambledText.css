@@ -1,0 +1,5 @@
+.scrambled-text { display: inline-block; font-weight: 700; font-size: 1.6rem; }
+.scrambled-text .scr-ch { display: inline-block; transition: color 0.12s, opacity 0.12s; }
+.scrambled-text .scr-ch.scrambled { color: rgba(0,0,0,0.35); }
+[data-theme="dark"] .scrambled-text .scr-ch.scrambled { color: rgba(255,255,255,0.45); }
+.scrambled-text .scr-ch.revealed { color: inherit; }

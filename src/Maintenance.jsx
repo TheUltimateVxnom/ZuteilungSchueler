@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import ScrambledText from './ScrambledText';
-import './ScrambledText.css';
 import TextType from './TextType';
 import './TextType.css';
 

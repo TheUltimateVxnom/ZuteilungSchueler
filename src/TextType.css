@@ -1,0 +1,27 @@
+.text-type {
+  display: inline-block;
+  white-space: pre-wrap;
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.text-type__content {
+  vertical-align: middle;
+}
+
+.text-type__cursor {
+  margin-left: 0.25rem;
+  display: inline-block;
+  opacity: 1;
+  color: var(--accent);
+}
+
+.text-type__cursor--hidden {
+  display: none;
+}
+
+/* small responsive tweak */
+@media (max-width: 600px) {
+  .text-type { font-size: 1.2rem; }
+}

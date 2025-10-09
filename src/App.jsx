@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
+import TextType from './TextType';
+import './TextType.css';
 
 function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onShow404, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
@@ -282,7 +284,15 @@ export default function App() {
           {view === "app" ? (
             <>
               <header className="app-header" style={{textAlign:"center"}}>
-                <h1>Schüler-Zuteilung</h1>
+                <h1>
+                  <TextType
+                    text={["Schüler-Zuteilung"]}
+                    typingSpeed={75}
+                    pauseDuration={1500}
+                    showCursor={true}
+                    cursorCharacter="|"
+                  />
+                </h1>
                 <p>Ziehe die Kacheln in die Bereiche. Mit „Zählen“ wird der Verlauf aktualisiert.</p>
               </header>
 

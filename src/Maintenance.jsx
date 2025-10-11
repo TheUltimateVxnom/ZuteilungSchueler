@@ -65,6 +65,7 @@ export default function Maintenance({ initialView } = {}) {
   const [snakeOpen, setSnakeOpen] = useState(false);
   // Always show the 404 maintenance redesign by default
   const [view, setView] = useState('404'); // "404" only
+  const [savedRedirect, setSavedRedirect] = useState(() => localStorage.getItem('schueler_redirect_choice') || null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -170,6 +171,12 @@ export default function Maintenance({ initialView } = {}) {
               <button
                 className="btn btn-primary"
                 onClick={() => {
+                  // If a redirect choice is already saved, use it
+                  const stored = localStorage.getItem('schueler_redirect_choice');
+                  if (stored) {
+                    window.location.href = stored;
+                    return;
+                  }
                   // choose randomly from three links and navigate in the same tab
                   const urls = [
                     'https://zus.onrender.com/',
@@ -177,6 +184,7 @@ export default function Maintenance({ initialView } = {}) {
                     'https://ztlr.onrender.com/'
                   ];
                   const choice = urls[Math.floor(Math.random() * urls.length)];
+                  try { localStorage.setItem('schueler_redirect_choice', choice); setSavedRedirect(choice); } catch (e) {}
                   // open in same tab so the user leaves the maintenance page
                   window.location.href = choice;
                 }}

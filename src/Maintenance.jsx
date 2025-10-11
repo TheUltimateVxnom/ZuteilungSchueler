@@ -149,16 +149,14 @@ export default function Maintenance({ initialView } = {}) {
           paddingTop: 0,
         }}
       >
-        {view !== "404" && (
-          <MenuDropdown
-            theme={theme}
-            toggleTheme={toggleTheme}
-            showSnake={() => setSnakeOpen(true)}
-            onShow404={() => setView("404")}
-            accent={accent}
-            onAccentChange={handleAccentChange}
-          />
-        )}
+        <MenuDropdown
+          theme={theme}
+          toggleTheme={toggleTheme}
+          showSnake={() => setSnakeOpen(true)}
+          onShow404={() => setView("404")}
+          accent={accent}
+          onAccentChange={handleAccentChange}
+        />
         {/* old main maintenance card removed so the 404 redesign is shown by default */}
         {view === "404" && (
           <section className="card maintenance-404-card" style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>

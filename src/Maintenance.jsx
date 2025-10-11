@@ -129,7 +129,6 @@ export default function Maintenance({ initialView } = {}) {
     <>
       <footer className="footer">
         <a
-          href=""
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}

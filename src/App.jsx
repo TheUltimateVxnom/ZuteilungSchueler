@@ -264,7 +264,6 @@ export default function App() {
     <>
       <footer className="footer">
         <a
-          href=""
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}

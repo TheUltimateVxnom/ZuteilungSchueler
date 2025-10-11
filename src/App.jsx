@@ -440,8 +440,7 @@ function Timeline() {
 
         <div className="timeline-item">
           <div className="timeline-dot" 
-           className="timeline-dot"
-            style={{
+           style={{
               background: "#16a34a",
               boxShadow: "0 0 16px 4px #16a34a"
             }}

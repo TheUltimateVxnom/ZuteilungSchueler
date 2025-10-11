@@ -322,6 +322,16 @@ body {
   100% { color: #ff0000; text-shadow: 0 0 6px rgba(220,34,34,0.6); }
 }
 
+/* Card background that blinks with the 404 text (red/black) */
+.maintenance-404-card {
+  animation: blink-red-black 1s infinite;
+  border-radius: 18px;
+  padding: 36px 48px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.85), rgba(20,20,20,0.95));
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 24px 8px rgba(220,34,34,0.12);
+  border: 2px solid rgba(220,34,34,0.12);
+}
+
 /* red vertical cursor for maintenance header */
 .maintenance-cursor {
   margin-left: 0.25rem;

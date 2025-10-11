@@ -432,6 +432,16 @@ function Timeline() {
       <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>
       <div className="timeline-list">
         <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+            <div className="timeline-date">Release v5.0</div>
+            <div className="timeline-content">🤫</div>
+          </div>
+        </div>
+        <div className="timeline-item">
+          <div className="timeline-dot" />
+          <div>
+              <div className="timeline-item">
           <div
             className="timeline-dot"
             style={{
@@ -439,6 +449,11 @@ function Timeline() {
               boxShadow: "0 0 16px 4px #16a34a"
             }}
           />
+            <div className="timeline-date">Beta v5.0</div>
+            <div className="timeline-content">Erste Tests für v5.0</div>
+          </div>
+        </div>
+
           <div>
             <div className="timeline-date">Release v4.0</div>
             <div className="timeline-content">Akzent-Farbpicker, Menü- und Theme-Synchronisation, Tab-Icon</div>

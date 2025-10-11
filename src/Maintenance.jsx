@@ -160,7 +160,7 @@ export default function Maintenance({ initialView } = {}) {
         )}
         {/* old main maintenance card removed so the 404 redesign is shown by default */}
         {view === "404" && (
-          <section className="card" style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>
+          <section className="card maintenance-404-card" style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>
             <h1 style={{ margin: 0 }}>
               {/* plain 404 heading; blink/glow handled via CSS class */}
               <div className="maintenance-404">404</div>

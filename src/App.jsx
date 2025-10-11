@@ -439,7 +439,13 @@ function Timeline() {
         </div>
 
         <div className="timeline-item">
-          <div className="timeline-dot" />
+          <div className="timeline-dot" 
+           className="timeline-dot"
+            style={{
+              background: "#16a34a",
+              boxShadow: "0 0 16px 4px #16a34a"
+            }}
+            />
           <div>
             <div className="timeline-date">Beta v5.0</div>
             <div className="timeline-content">Erste Tests für v5.0</div>
@@ -447,13 +453,7 @@ function Timeline() {
         </div>
 
         <div className="timeline-item">
-          <div
-            className="timeline-dot"
-            style={{
-              background: "#16a34a",
-              boxShadow: "0 0 16px 4px #16a34a"
-            }}
-          />
+          <div/>
           <div>
             <div className="timeline-date">Release v4.0</div>
             <div className="timeline-content">Akzent-Farbpicker, Menü- und Theme-Synchronisation, Tab-Icon</div>

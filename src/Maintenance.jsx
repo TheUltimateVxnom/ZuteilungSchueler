@@ -172,9 +172,9 @@ export default function Maintenance({ initialView } = {}) {
                 onClick={() => {
                   // choose randomly from three links and navigate in the same tab
                   const urls = [
-                    'https://www.google.com',
-                    'https://chat.openai.com',
-                    'https://www.bing.com'
+                    'https://zus.onrender.com/',
+                    'https://ztsl.onrender.com/',
+                    'https://ztlr.onrender.com/'
                   ];
                   const choice = urls[Math.floor(Math.random() * urls.length)];
                   // open in same tab so the user leaves the maintenance page

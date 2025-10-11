@@ -315,11 +315,11 @@ body {
 }
 
 @keyframes blink-red-black {
-  0% { color: #000000; text-shadow: 0 0 6px rgba(220,34,34,0.6); }
+  0% { color: #ff0000; text-shadow: 0 0 6px rgba(221, 34, 34, 0.6); }
   25% { color: #000000; text-shadow: 0 0 14px rgba(220,34,34,0.9); }
-  50% { color: #000; text-shadow: 0 0 18px rgba(0,0,0,1); }
+  50% { color: #ff0000; text-shadow: 0 0 18px rgba(0,0,0,1); }
   75% { color: #000000; text-shadow: 0 0 14px rgba(220,34,34,0.9); }
-  100% { color: #000000; text-shadow: 0 0 6px rgba(220,34,34,0.6); }
+  100% { color: #ff0000; text-shadow: 0 0 6px rgba(220,34,34,0.6); }
 }
 
 /* red vertical cursor for maintenance header */

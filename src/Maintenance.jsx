@@ -176,16 +176,31 @@ export default function Maintenance({ initialView } = {}) {
           </section>
         )}
         {view === "404" && (
-          <section className="card" style={{ maxWidth: 600, margin: "60px auto", textAlign: "center" }}>
+          <section className="card" style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>
             <h1 style={{ margin: 0 }}>
-              <GlitchText className="custom-class glitch-404" speed={1} enableShadows={true} enableOnHover={true}>
+              {/* continuous glitch + red/black blink via glitch-404; disable hover-only */}
+              <GlitchText className="custom-class glitch-404" speed={1} enableShadows={true} enableOnHover={false}>
                 404
               </GlitchText>
             </h1>
-            <p style={{ marginTop: 12, fontSize: 18 }}>Seite in Wartung oder nicht gefunden</p>
+            <p style={{ marginTop: 12, fontSize: 18 }}>Die Website ist in Wartung oder nicht verfügbar</p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 18 }}>
-              <button className="btn btn-outline" onClick={() => window.open('https://www.google.com', '_blank')}>Noch mal versuchen</button>
-              <button className="btn btn-primary" onClick={() => window.open('https://chat.openai.com', '_blank')}>Noch mal versuchen</button>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  // choose randomly from three links and navigate in the same tab
+                  const urls = [
+                    'https://www.google.com',
+                    'https://chat.openai.com',
+                    'https://www.bing.com'
+                  ];
+                  const choice = urls[Math.floor(Math.random() * urls.length)];
+                  // open in same tab so the user leaves the maintenance page
+                  window.location.href = choice;
+                }}
+              >
+                Erneut laden
+              </button>
             </div>
           </section>
         )}

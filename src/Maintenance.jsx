@@ -60,12 +60,12 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAcce
   );
 }
 
-export default function Maintenance() {
+export default function Maintenance({ initialView } = {}) {
   const [theme, setTheme] = useState("light");
   // Load persisted accent if present so reload restores user's choice
   const [accent, setAccent] = useState(() => localStorage.getItem('schueler_accent') || '#4f46e5');
   const [snakeOpen, setSnakeOpen] = useState(false);
-  const [view, setView] = useState("main"); // "main" oder "404"
+  const [view, setView] = useState(initialView === '404' ? '404' : 'main'); // "main" oder "404"
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";

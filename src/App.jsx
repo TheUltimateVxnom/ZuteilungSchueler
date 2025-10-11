@@ -252,8 +252,11 @@ export default function App() {
   }
 
   // Wartungsmodus prüfen
-  const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true";
-  if (maintenance) return <Maintenance />;
+  // Wartungsmodus prüfen via env OR URL query (für Tests)
+  const urlParams = new URLSearchParams(window.location.search);
+  const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true" || urlParams.get('maintenance') === '1';
+  const forcedView = urlParams.get('view'); // e.g. ?view=404 for direct testing
+  if (maintenance) return <Maintenance initialView={forcedView || undefined} />;
 
   const [view, setView] = useState("app"); // "app", "timeline", "404"
 

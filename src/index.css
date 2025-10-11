@@ -302,6 +302,26 @@ body {
   vertical-align: middle;
 }
 
+/* Plain 404 blink + red/black glow (replaces Glitch component visuals) */
+.maintenance-404 {
+  font-size: clamp(3rem, 12vw, 8rem);
+  font-weight: 900;
+  color: #ffdddd;
+  text-shadow: 0 0 8px rgba(220,34,34,0.8);
+  display: inline-block;
+  line-height: 1;
+  user-select: none;
+  animation: blink-red-black 1s infinite;
+}
+
+@keyframes blink-red-black {
+  0% { color: #fff; text-shadow: 0 0 6px rgba(220,34,34,0.6); }
+  25% { color: #ffdddd; text-shadow: 0 0 14px rgba(220,34,34,0.9); }
+  50% { color: #000; text-shadow: 0 0 18px rgba(0,0,0,1); }
+  75% { color: #ffdddd; text-shadow: 0 0 14px rgba(220,34,34,0.9); }
+  100% { color: #fff; text-shadow: 0 0 6px rgba(220,34,34,0.6); }
+}
+
 /* red vertical cursor for maintenance header */
 .maintenance-cursor {
   margin-left: 0.25rem;

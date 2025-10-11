@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import TextType from './TextType';
 import './TextType.css';
-import GlitchText from './GlitchText';
-import './GlitchText.css';
 
 function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
@@ -164,10 +162,8 @@ export default function Maintenance({ initialView } = {}) {
         {view === "404" && (
           <section className="card" style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>
             <h1 style={{ margin: 0 }}>
-              {/* continuous glitch + red/black blink via glitch-404; disable hover-only */}
-              <GlitchText className="custom-class glitch-404" speed={1} enableShadows={true} enableOnHover={false}>
-                404
-              </GlitchText>
+              {/* plain 404 heading; blink/glow handled via CSS class */}
+              <div className="maintenance-404">404</div>
             </h1>
             <p style={{ marginTop: 12, fontSize: 18 }}>Die Website ist in Wartung oder nicht verfügbar</p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 18 }}>

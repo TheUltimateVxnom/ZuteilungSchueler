@@ -65,7 +65,8 @@ export default function Maintenance({ initialView } = {}) {
   // Load persisted accent if present so reload restores user's choice
   const [accent, setAccent] = useState(() => localStorage.getItem('schueler_accent') || '#4f46e5');
   const [snakeOpen, setSnakeOpen] = useState(false);
-  const [view, setView] = useState(initialView === '404' ? '404' : 'main'); // "main" oder "404"
+  // Always show the 404 maintenance redesign by default
+  const [view, setView] = useState('404'); // "404" only
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -159,22 +160,7 @@ export default function Maintenance({ initialView } = {}) {
             onAccentChange={handleAccentChange}
           />
         )}
-        {view === "main" && (
-          <section className="card maintenance-glow" style={{ maxWidth: 500, margin: "0 auto" }}>
-            <h1 style={{ margin: 0 }}>
-            <TextType
-             text={["🛠️ Website in Wartung"]}
-             typingSpeed={75}
-             pauseDuration={1500}
-             showCursor={true}
-             cursorCharacter="|"
-             cursorClassName="maintenance-cursor"
-             className="maintenance-title"
-            />
-            </h1>
-            <p style={{ marginTop: 12 }}>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>
-          </section>
-        )}
+        {/* old main maintenance card removed so the 404 redesign is shown by default */}
         {view === "404" && (
           <section className="card" style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>
             <h1 style={{ margin: 0 }}>

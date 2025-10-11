@@ -452,7 +452,7 @@ function Timeline() {
         </div>
 
         <div className="timeline-item">
-          <div/>
+          <div className="timeline-dot" />
           <div>
             <div className="timeline-date">Release v4.0</div>
             <div className="timeline-content">Akzent-Farbpicker, Menü- und Theme-Synchronisation, Tab-Icon</div>

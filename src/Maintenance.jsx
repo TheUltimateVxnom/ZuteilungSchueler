@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import TextType from './TextType';
 import './TextType.css';
+import GlitchText from './GlitchText';
+import './GlitchText.css';
 
 function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
@@ -51,10 +53,7 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAcce
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
             🐍 Snake spielen
           </button>
-          <div className="menu-divider" />
-          <button className="menu-item" onClick={() => { setOpen(false); onShow404(); }}>
-            ❌ 404
-          </button>
+          
         </div>
       )}
     </div>
@@ -175,22 +174,16 @@ export default function Maintenance() {
           </section>
         )}
         {view === "404" && (
-          <section className="card" style={{ maxWidth: 400, margin: "60px auto", textAlign: "center" }}>
-            <h1 style={{ fontSize: "2.5rem", color: "#dc2626" }}>404</h1>
-            <p>Seite nicht gefunden</p>
-            <button className="btn btn-outline" onClick={toggleTheme} style={{ margin: "18px 0" }}>
-              {theme === "light" ? "🌙 Dunkel" : "☀️ Hell"}
-            </button>
-            <br />
-            <button
-              className="btn btn-primary"
-              style={{ marginTop: 10 }}
-              onClick={() => window.open("https://www.youtube.com/embed/xvFZjo5PgG0?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0", "_blank")}
-            >
-              Zurück zur Seite
-            </button>
-            <div style={{ marginTop: 18, fontSize: 13, color: "#888" }}>
-              
+          <section className="card" style={{ maxWidth: 600, margin: "60px auto", textAlign: "center" }}>
+            <h1 style={{ margin: 0 }}>
+              <GlitchText className="glitch-404" speed={1} enableShadows={true} enableOnHover={false}>
+                404
+              </GlitchText>
+            </h1>
+            <p style={{ marginTop: 12, fontSize: 18 }}>Seite in Wartung oder nicht gefunden</p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 18 }}>
+              <button className="btn btn-outline" onClick={() => window.open('https://www.google.com', '_blank')}>Noch mal versuchen (Google)</button>
+              <button className="btn btn-primary" onClick={() => window.open('https://chat.openai.com', '_blank')}>Noch mal versuchen (ChatGPT)</button>
             </div>
           </section>
         )}

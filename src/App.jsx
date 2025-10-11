@@ -256,7 +256,7 @@ export default function App() {
   const urlParams = new URLSearchParams(window.location.search);
   const maintenance = import.meta.env.VITE_MAINTENANCE_MODE === "true" || urlParams.get('maintenance') === '1';
   const forcedView = urlParams.get('view'); // e.g. ?view=404 for direct testing
-  if (maintenance) return <Maintenance initialView={forcedView || undefined} />;
+  if (maintenance) return <Maintenance initialView={forcedView || '404'} />;
 
   const [view, setView] = useState("app"); // "app", "timeline", "404"
 

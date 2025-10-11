@@ -168,6 +168,8 @@ export default function Maintenance({ initialView } = {}) {
              pauseDuration={1500}
              showCursor={true}
              cursorCharacter="|"
+             cursorClassName="maintenance-cursor"
+             className="maintenance-title"
             />
             </h1>
             <p style={{ marginTop: 12 }}>Die Seite wird gerade aktualisiert. Bitte später erneut versuchen.</p>

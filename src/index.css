@@ -283,6 +283,43 @@ body {
   animation: blink-glow-dark 2s infinite;
 }
 
+/* Strong maintenance panel styling to match screenshot */
+.card.maintenance-glow {
+  background: #272727; /* darker panel */
+  border-radius: 18px;
+  padding: 34px 48px;
+  max-width: 760px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255,215,0,0.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 48px 12px rgba(255,215,0,0.12);
+}
+
+.maintenance-title {
+  display: inline-block;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  color: #fff;
+  vertical-align: middle;
+}
+
+/* red vertical cursor for maintenance header */
+.maintenance-cursor {
+  margin-left: 0.25rem;
+  display: inline-block;
+  color: #dc2626 !important;
+  text-shadow: 0 0 8px rgba(220,34,34,0.85);
+}
+
+/* Emphasize the card glow (pulsing) */
+.card.maintenance-glow {
+  animation: maintenance-pulse 2.4s infinite;
+}
+@keyframes maintenance-pulse {
+  0% { box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 24px 6px rgba(255,215,0,0.10); }
+  50% { box-shadow: 0 10px 36px rgba(0,0,0,0.6), 0 0 56px 20px rgba(255,215,0,0.18); }
+  100% { box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 24px 6px rgba(255,215,0,0.10); }
+}
+
 /* Button Hover: Light Mode = Schatten, Dark Mode = weißer Glow */
 [data-theme="light"] .btn:hover {
   box-shadow: 0 12px 32px rgba(0,0,0,0.22); /* größerer Schatten */

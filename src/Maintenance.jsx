@@ -145,12 +145,7 @@ export default function Maintenance({ initialView } = {}) {
   return (
     <>
       <footer className="footer">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
-        >
-          © Lukas Diezinger, Release v5.0
+        <span style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}>© Lukas Diezinger, Release v5.0</span>
       </footer>
       <div
         className="app-container"

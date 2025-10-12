@@ -54,12 +54,13 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, onShowMon
           <div className="menu-divider" />
           {view === "app" ? (
             <>
-              <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
-                ➡️ Changelog / Timeline
-              </button>
-              <button className="menu-item" onClick={() => { setOpen(false); onShowMonitor && onShowMonitor(); }}>
-                📡 Status Monitor
-              </button>
+                <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
+                  ➡️ Changelog / Timeline
+                </button>
+                <div className="menu-divider" />
+                <button className="menu-item" onClick={() => { setOpen(false); onShowMonitor && onShowMonitor(); }}>
+                  📡 Status Monitor
+                </button>
             </>
           ) : (
             <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>

@@ -3,7 +3,7 @@ import Maintenance from "./Maintenance.jsx"; // Wartungsseite importieren
 import TextType from './TextType';
 import './TextType.css';
 
-function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onShow404, accent, onAccentChange }) {
+function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, onShowMonitor, view, onShow404, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -53,9 +53,14 @@ function MenuDropdown({ theme, toggleTheme, onShowTimeline, onShowApp, view, onS
           </div>
           <div className="menu-divider" />
           {view === "app" ? (
-            <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
-              ➡️ Changelog / Timeline
-            </button>
+            <>
+              <button className="menu-item" onClick={() => { setOpen(false); onShowTimeline(); }}>
+                ➡️ Changelog / Timeline
+              </button>
+              <button className="menu-item" onClick={() => { setOpen(false); onShowMonitor && onShowMonitor(); }}>
+                📡 Status Monitor
+              </button>
+            </>
           ) : (
             <button className="menu-item" onClick={() => { setOpen(false); onShowApp(); }}>
               ⬅️ Zurück zur App
@@ -258,7 +263,7 @@ export default function App() {
   const forcedView = urlParams.get('view'); // e.g. ?view=404 for direct testing
   if (maintenance) return <Maintenance initialView={forcedView || '404'} />;
 
-  const [view, setView] = useState("app"); // "app", "timeline", "404"
+  const [view, setView] = useState("app"); // "app", "timeline", "monitor", "404"
 
   return (
     <>
@@ -276,6 +281,7 @@ export default function App() {
         toggleTheme={toggleTheme}
         onShowTimeline={() => setView("timeline")}
         onShowApp={() => setView("app")}
+        onShowMonitor={() => setView("monitor")}
         view={view}
         onShow404={() => setView("404")}
         accent={accent}
@@ -387,6 +393,18 @@ export default function App() {
             </>
           ) : view === "404" ? (
             <NotFound404 onShowApp={() => setView("app")} />
+          ) : view === "monitor" ? (
+            <section className="card timeline-card" style={{ maxWidth: 900, margin: "40px auto", textAlign: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h2>System Status Monitor</h2>
+                <div>
+                  <button className="btn btn-outline" onClick={() => setView('app')}>⬅️ Zurück zur App</button>
+                </div>
+              </div>
+              <div style={{ marginTop: 12 }}>
+                <iframe src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
+              </div>
+            </section>
           ) : (
             <Timeline />
           )}

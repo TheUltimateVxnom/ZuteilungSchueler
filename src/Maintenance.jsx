@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import TextType from './TextType';
 import './TextType.css';
 
-function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAccentChange }) {
+function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, onShowMonitor, accent, onAccentChange }) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -50,6 +50,9 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, accent, onAcce
           <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
             🐍 Snake spielen
+          </button>
+          <button className="menu-item" onClick={() => { setOpen(false); onShowMonitor && onShowMonitor(); }}>
+            📡 Status Monitor
           </button>
           
         </div>
@@ -157,7 +160,19 @@ export default function Maintenance({ initialView } = {}) {
           onAccentChange={handleAccentChange}
         />
         {/* old main maintenance card removed so the 404 redesign is shown by default */}
-        {view === "404" && (
+        {view === "monitor" ? (
+          <section className="card timeline-card" style={{ maxWidth: 900, margin: "40px auto", textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2>System Status Monitor</h2>
+              <div>
+                <button className="btn btn-outline" onClick={() => setView('404')}>⬅️ Zurück</button>
+              </div>
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <iframe src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
+            </div>
+          </section>
+        ) : view === "404" && (
           <section className="card maintenance-404-card" style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>
             <h1 style={{ margin: 0 }}>
               {/* plain 404 heading; blink/glow handled via CSS class */}

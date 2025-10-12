@@ -69,6 +69,8 @@ export default function Maintenance({ initialView } = {}) {
   const [snakeOpen, setSnakeOpen] = useState(false);
   // Always show the 404 maintenance redesign by default
   const [view, setView] = useState('404'); // "404" only
+  const monitorIframeRef = useRef(null);
+  const [monitorBlocked, setMonitorBlocked] = useState(false);
   const [savedRedirect, setSavedRedirect] = useState(() => localStorage.getItem('schueler_redirect_choice') || null);
 
   useEffect(() => {
@@ -129,6 +131,17 @@ export default function Maintenance({ initialView } = {}) {
     return `${r},${g},${b}`;
   }
 
+  // Detect if iframe embedding may be blocked: show fallback after small timeout
+  useEffect(() => {
+    if (view === 'monitor') {
+      setMonitorBlocked(false);
+      const t = setTimeout(() => setMonitorBlocked(true), 2200);
+      return () => clearTimeout(t);
+    } else {
+      setMonitorBlocked(false);
+    }
+  }, [view]);
+
   return (
     <>
       <footer className="footer">
@@ -137,8 +150,7 @@ export default function Maintenance({ initialView } = {}) {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v5.0
-        </a>
+          © Lukas Diezinger, Release v5.0
       </footer>
       <div
         className="app-container"
@@ -168,10 +180,27 @@ export default function Maintenance({ initialView } = {}) {
               <h2>System Status Monitor</h2>
               <div>
                 <button className="btn btn-primary" onClick={() => setView('404')}>⬅️ Zurück</button>
+                <button className="btn btn-outline" style={{ marginLeft: 8 }} onClick={() => window.open('https://zus.betteruptime.com/', '_blank', 'noopener')}>🔗 In neuem Tab öffnen</button>
               </div>
             </div>
             <div style={{ marginTop: 12 }}>
-              <iframe className="monitor-iframe" src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
+              <iframe
+                ref={monitorIframeRef}
+                onLoad={() => setMonitorBlocked(false)}
+                className="monitor-iframe"
+                src="https://zus.betteruptime.com/"
+                title="Status Monitor"
+                style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }}
+              />
+              {monitorBlocked && (
+                <div className="iframe-fallback" style={{ marginTop: 12 }}>
+                  <div>Die Einbettung des Monitor-Panels wurde möglicherweise blockiert.</div>
+                  <div style={{ marginTop: 8 }}>
+                    <button className="btn btn-primary" onClick={() => window.open('https://zus.betteruptime.com/', '_blank', 'noopener')}>Monitor in neuem Tab öffnen</button>
+                    <button className="btn btn-outline" style={{ marginLeft: 8 }} onClick={() => setMonitorBlocked(false)}>Erneut versuchen</button>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         ) : view === "404" && (

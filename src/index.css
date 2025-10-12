@@ -656,4 +656,36 @@ input, textarea, [contenteditable="true"] {
   background: rgba(var(--accent-rgb,79,70,229),0.8);
 }
 
+/* Ensure monitor iframe scrollbar colors are explicit per theme */
+[data-theme="dark"] .monitor-iframe::-webkit-scrollbar {
+  background: #0f0f0f;
+}
+[data-theme="dark"] .monitor-iframe::-webkit-scrollbar-thumb {
+  background: #111; /* very dark thumb */
+}
+[data-theme="light"] .monitor-iframe::-webkit-scrollbar {
+  background: #ffffff;
+}
+[data-theme="light"] .monitor-iframe::-webkit-scrollbar-thumb {
+  background: #ddd; /* light thumb */
+}
+
+/* Firefox support */
+[data-theme="dark"] .monitor-iframe {
+  scrollbar-color: #111 #0f0f0f;
+}
+[data-theme="light"] .monitor-iframe {
+  scrollbar-color: #ddd #ffffff;
+}
+
+/* Fallback notice when iframe embedding is blocked */
+.iframe-fallback {
+  border: 1px dashed var(--input-border);
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.03);
+  display: inline-block;
+}
+.iframe-fallback div { color: var(--text-color); }
+
 

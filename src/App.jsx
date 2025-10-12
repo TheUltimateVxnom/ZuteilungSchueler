@@ -265,6 +265,20 @@ export default function App() {
   if (maintenance) return <Maintenance initialView={forcedView || '404'} />;
 
   const [view, setView] = useState("app"); // "app", "timeline", "monitor", "404"
+  // Monitor iframe handling: show fallback if iframe doesn't load (embedding blocked)
+  const monitorIframeRef = useRef(null);
+  const [monitorBlocked, setMonitorBlocked] = useState(false);
+
+  useEffect(() => {
+    if (view === 'monitor') {
+      // if iframe doesn't fire load within 2200ms, show fallback
+      setMonitorBlocked(false);
+      const t = setTimeout(() => setMonitorBlocked(true), 2200);
+      return () => clearTimeout(t);
+    } else {
+      setMonitorBlocked(false);
+    }
+  }, [view]);
 
   return (
     <>
@@ -274,7 +288,7 @@ export default function App() {
           rel="noopener noreferrer"
           style={{ color: "inherit", textDecoration: "underline", cursor: "pointer" }}
         >
-          © Lukas Diezinger, Beta v5.0
+          © Lukas Diezinger, Release v5.0
         </a>
       </footer>
       <MenuDropdown
@@ -399,11 +413,28 @@ export default function App() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h2>System Status Monitor</h2>
                 <div>
-                  <button className="btn btn-primary" onClick={() => setView('app')}>⬅️ Zurück zur App</button>
+                    <button className="btn btn-primary" onClick={() => setView('app')}>⬅️ Zurück zur App</button>
+                    <button className="btn btn-outline" style={{ marginLeft: 8 }} onClick={() => window.open('https://zus.betteruptime.com/', '_blank', 'noopener')}>🔗 In neuem Tab öffnen</button>
                 </div>
               </div>
               <div style={{ marginTop: 12 }}>
-                <iframe className="monitor-iframe" src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
+                  <iframe
+                    ref={monitorIframeRef}
+                    onLoad={() => setMonitorBlocked(false)}
+                    className="monitor-iframe"
+                    src="https://zus.betteruptime.com/"
+                    title="Status Monitor"
+                    style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }}
+                  />
+                  {monitorBlocked && (
+                    <div className="iframe-fallback" style={{ marginTop: 12 }}>
+                      <div>Die Einbettung des Monitor-Panels wurde möglicherweise blockiert.</div>
+                      <div style={{ marginTop: 8 }}>
+                        <button className="btn btn-primary" onClick={() => window.open('https://zus.betteruptime.com/', '_blank', 'noopener')}>Monitor in neuem Tab öffnen</button>
+                        <button className="btn btn-outline" style={{ marginLeft: 8 }} onClick={() => setMonitorBlocked(false)}>Erneut versuchen</button>
+                      </div>
+                    </div>
+                  )}
               </div>
             </section>
           ) : (
@@ -449,14 +480,7 @@ function Timeline() {
     <section className="card timeline-card" style={{ maxWidth: 600, margin: "40px auto" }}>
       <h2 style={{ textAlign: "center" }}>Changelog / Timeline</h2>
       <div className="timeline-list">
-        <div className="timeline-item">
-          <div className="timeline-dot" />
-          <div>
-            <div className="timeline-date">Release v5.0</div>
-            <div className="timeline-content">🤫</div>
-          </div>
-        </div>
-
+        <div>
         <div className="timeline-item">
           <div className="timeline-dot" 
            style={{
@@ -464,6 +488,11 @@ function Timeline() {
               boxShadow: "0 0 16px 4px #16a34a"
             }}
             />
+          <div>
+            <div className="timeline-date">Release v5.0</div>
+            <div className="timeline-content">Neue Wartungsseite, Status Monitor der Seite, UI Verbesserungen</div>
+          </div>
+        </div>
           <div>
             <div className="timeline-date">Beta v5.0</div>
             <div className="timeline-content">Erste Tests für v5.0</div>

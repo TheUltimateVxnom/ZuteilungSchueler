@@ -398,11 +398,11 @@ export default function App() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h2>System Status Monitor</h2>
                 <div>
-                  <button className="btn btn-outline" onClick={() => setView('app')}>⬅️ Zurück zur App</button>
+                  <button className="btn btn-primary" onClick={() => setView('app')}>⬅️ Zurück zur App</button>
                 </div>
               </div>
               <div style={{ marginTop: 12 }}>
-                <iframe src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
+                <iframe className="monitor-iframe" src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
               </div>
             </section>
           ) : (

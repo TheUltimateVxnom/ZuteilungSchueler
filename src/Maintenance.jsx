@@ -51,6 +51,7 @@ function MenuDropdown({ theme, toggleTheme, showSnake, onShow404, onShowMonitor,
           <button className="menu-item" onClick={() => { setOpen(false); showSnake(); }}>
             🐍 Snake spielen
           </button>
+          <div className="menu-divider" />
           <button className="menu-item" onClick={() => { setOpen(false); onShowMonitor && onShowMonitor(); }}>
             📡 Status Monitor
           </button>
@@ -156,6 +157,7 @@ export default function Maintenance({ initialView } = {}) {
           toggleTheme={toggleTheme}
           showSnake={() => setSnakeOpen(true)}
           onShow404={() => setView("404")}
+          onShowMonitor={() => setView('monitor')}
           accent={accent}
           onAccentChange={handleAccentChange}
         />
@@ -165,11 +167,11 @@ export default function Maintenance({ initialView } = {}) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2>System Status Monitor</h2>
               <div>
-                <button className="btn btn-outline" onClick={() => setView('404')}>⬅️ Zurück</button>
+                <button className="btn btn-primary" onClick={() => setView('404')}>⬅️ Zurück</button>
               </div>
             </div>
             <div style={{ marginTop: 12 }}>
-              <iframe src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
+              <iframe className="monitor-iframe" src="https://zus.betteruptime.com/" title="Status Monitor" style={{ width: '100%', height: '640px', border: 'none', borderRadius: 12 }} />
             </div>
           </section>
         ) : view === "404" && (

@@ -629,4 +629,31 @@ input, textarea, [contenteditable="true"] {
   cursor: not-allowed;
 }
 
+/* Monitor iframe styling - we style the iframe element and its container.
+   Note: We cannot control the inner page's scrollbar if it's cross-origin (X-Frame-Options/CSP).
+   These rules style the iframe element and provide a dark scrollbar for browsers that render it.
+*/
+.monitor-iframe {
+  width: 100%;
+  height: 640px;
+  border: none;
+  border-radius: 12px;
+  outline: 3px solid rgba(var(--accent-rgb, 79,70,229), 0.12);
+  background: var(--card-bg);
+}
+
+/* Dark scrollbar for the iframe element (applies to scrollable element if the browser
+   exposes scrollbars for iframe container). Innner cross-origin content may still not be affected. */
+[data-theme="dark"] .monitor-iframe::-webkit-scrollbar {
+  width: 12px;
+  background: #222;
+}
+[data-theme="dark"] .monitor-iframe::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb,79,70,229),0.6);
+  border-radius: 8px;
+}
+[data-theme="dark"] .monitor-iframe::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent-rgb,79,70,229),0.8);
+}
+
 

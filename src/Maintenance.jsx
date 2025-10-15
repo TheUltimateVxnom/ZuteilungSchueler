@@ -204,7 +204,9 @@ export default function Maintenance({ initialView } = {}) {
               {/* plain 404 heading; blink/glow handled via CSS class */}
               <div className="maintenance-404">404</div>
             </h1>
-            <p style={{ marginTop: 12, fontSize: 18 }}>Die Website ist in Wartung oder nicht verfügbar</p>
+            <p style={{ marginTop: 12, fontSize: 18 }}>Die Website ist in Wartung oder nicht verfügbar
+              –
+            </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 18 }}>
               <button
                 className="btn btn-primary"
